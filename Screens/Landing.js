@@ -2,6 +2,11 @@ import { StyleSheet, Text, View, Button, ScrollView } from 'react-native'
 import React from 'react'
 
 const Landing = () => {
+
+
+  //if statement wat usestates set vir die hero text, if no entry dan wys die get journaling, as da entries is dan wys health score
+
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.heroBox}>
