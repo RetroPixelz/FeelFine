@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import CustomTabBar from './Navigation/CustomTabBar';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import Journal from './Screens/Journal';
 
 
 const Tab = createBottomTabNavigator();
@@ -37,6 +38,15 @@ function TabNavigator() {
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="doctor" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Journal"
+        component={Journal}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
         }}
       />
