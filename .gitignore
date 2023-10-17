@@ -21,7 +21,7 @@ yarn-error.log*
 .vscode/
 # Environment variables
 .env
-.firebase.js
+firebase.js
 # macOS directory settings
 .DS_Store
 # Android files
