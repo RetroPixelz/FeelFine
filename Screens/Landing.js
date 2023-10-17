@@ -1,7 +1,16 @@
-import { StyleSheet, Text, View, Button, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Landing = () => {
+
+  const clearOnboarding = async () => {
+    try {
+      await AsyncStorage.removeItem('@viewedOnboarding')
+    } catch (err) {
+        console.log("Error @clearOnboarding: ", err)
+    }
+  }
 
 
   //if statement wat usestates set vir die hero text, if no entry dan wys die get journaling, as da entries is dan wys health score
@@ -20,10 +29,10 @@ const Landing = () => {
         </Button> */}
       </View>
 
-      <View style={styles.Categories}> 
-          <View style={styles.Doctors}></View>
-          <View style={styles.Exercises}></View>
-          
+      <View style={styles.Categories}>
+        <View style={styles.Doctors}></View>
+        <View style={styles.Exercises}></View>
+
       </View>
 
       <View style={styles.YourEntries}>
@@ -31,31 +40,35 @@ const Landing = () => {
 
 
         {/* maak die n component */}
-        <View style={styles.Entry}> 
-           <View style={styles.EntryBlock}></View>
-           <View style={styles.EntryTextBlock}>
-              <Text> Monday 25-35-2010</Text>
-              <Text style={styles.EntryThumbnail}> today was a rough day it was all ofver the place</Text>
-           </View>
+        <View style={styles.Entry}>
+          <View style={styles.EntryBlock}></View>
+          <View style={styles.EntryTextBlock}>
+            <Text> Monday 25-35-2010</Text>
+            <Text style={styles.EntryThumbnail}> today was a rough day it was all ofver the place</Text>
+          </View>
         </View>
 
 
-        <View style={styles.Entry}> 
-           <View style={styles.EntryBlock}></View>
-           <View style={styles.EntryTextBlock}>
-              <Text> Monday 25-35-2010</Text>
-              <Text style={styles.EntryThumbnail}> today was a rough day it was all ofver the place</Text>
-           </View>
+        <View style={styles.Entry}>
+        <TouchableOpacity onPress={clearOnboarding}>
+        <Text>clear Onboarding</Text>
+      </TouchableOpacity>
+          <View style={styles.EntryBlock}></View>
+          <View style={styles.EntryTextBlock}>
+            <Text> Monday 25-35-2010</Text>
+            <Text style={styles.EntryThumbnail}> today was a rough day it was all ofver the place</Text>
+          </View>
         </View>
 
-        <View style={styles.Entry}> 
-           <View style={styles.EntryBlock}></View>
-           <View style={styles.EntryTextBlock}>
-              <Text> Monday 25-35-2010</Text>
-              <Text style={styles.EntryThumbnail}> today was a rough day it was all ofver the place</Text>
-           </View>
+        <View style={styles.Entry}>
+          <View style={styles.EntryBlock}></View>
+          <View style={styles.EntryTextBlock}>
+            <Text> Monday 25-35-2010</Text>
+            <Text style={styles.EntryThumbnail}> today was a rough day it was all ofver the place</Text>
+          </View>
         </View>
       </View>
+      
     </ScrollView>
   )
 }

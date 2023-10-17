@@ -29,9 +29,9 @@ const Journal = () => {
         </View>
         <View style={styles.Analyse}> 
            <Text style={styles.AnalyseText}>Analyse</Text>
-        </View>
-      </View>
-      </View>  
+        </View>                         
+      </View>                
+      </View>                        
     </View>
   )
 }
