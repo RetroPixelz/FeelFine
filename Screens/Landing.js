@@ -22,9 +22,9 @@ const Landing = () => {
       <View style={styles.heroBox}>
         <Text style={styles.heroText}>Get Journaling</Text>
         <Text style={styles.heroPara} >Before we can give you a summary of your mental health score for the last month, you need to make an entry first</Text>
-        <View style={styles.MakeEntry}>
+        <TouchableOpacity style={styles.MakeEntry}>
           <Text style={styles.MakeEntryText}>Make an entry</Text>
-        </View>
+        </TouchableOpacity>
         {/* <Button style={styles.MakeEntry}>
 
         </Button> */}
@@ -106,11 +106,13 @@ const styles = StyleSheet.create({
     width: 250,
     height: 40,
     backgroundColor: "#AF8EFF",
-    padding: 20,
+    justifyContent: 'center', // Center child view vertically
+    alignItems: 'center', // Center child view horizontally
     borderRadius: 5
   },
   MakeEntryText: {
-    color: "white"
+    color: "white",
+    fontSize: 20
   },
   Categories: {
     flexDirection: 'row', // To place the child views next to each other

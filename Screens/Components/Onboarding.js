@@ -44,7 +44,7 @@ const navigation = useNavigation();
         data={slides}
         renderItem={({ item }) => <OnboardingItem item={item} />}
         horizontal
-        showsHorizontalScrollIndicator
+        showsHorizontalScrollIndicator={false}
         pagingEnabled
         bounces={false}
         keyExtractor={(item) => item.id}

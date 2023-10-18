@@ -50,16 +50,17 @@ const NextButton = ({percentage, scrollTo}) => {
         <View style={styles.container}>
             <Svg width={size} height={size}>
                 <G rotation="-90" origin={center}>
-                    <Circle stroke="#E6E7E8" cx={center} cy={center} r={radius} strokeWidth={strokeWidth} />
+                    <Circle stroke="#AF8EFF" cx={center} cy={center} r={radius} strokeWidth={strokeWidth} />
                     <Circle
                         ref={progressRef}
-                        stroke="#F4338F"
+                        stroke="#AF8EFF"
+                        fill="#fff"
                         cx={center}
                         cy={center}
                         r={radius}
                         strokeWidth={strokeWidth}
                         strokeDasharray={circumference}
-                       
+                        
                     />
                 </G>
 
@@ -77,11 +78,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
     button: {
         position: 'absolute',
-        backgroundColor: '#f4338f',
+        backgroundColor: '#AF8EFF',
         borderRadius: 100,
         padding: 20,
     }
