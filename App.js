@@ -13,6 +13,7 @@ import Onboarding from './Screens/Components/Onboarding';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import Login from './Screens/Login';
+import Register from './Screens/Register';
 
 const Tab = createBottomTabNavigator();
 
@@ -111,7 +112,9 @@ export default function App({navigation, props}) {
       ) : (
         <Stack.Navigator initialRouteName="Onboarding">
           <Stack.Screen name="Onboarding" component={Onboarding} />
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+          <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+
           <Stack.Screen name="tabNavigator" component={TabNavigator} options={{ headerShown: false }}/>
 
           {/* Add other screens to the stack as needed */}

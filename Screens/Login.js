@@ -1,10 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert } from 'react-native'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
+import { signInUser } from '../Services/firebaseAuth';
 
 
 const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 const navigation = useNavigation();
 
 const loggingin = () => {
@@ -19,13 +22,93 @@ const loggingin = () => {
     
 }
 
+const logOn = async () => {
+   
+    if (!email || !password) {
+      Alert.alert("Whoops", "Please provide your email and password");
+    } else {
+      try {
+        // Attempt to sign in the user
+        await signInUser(email, password);
+  
+        //navigate if loggin was successfull
+        navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                { name: 'tabNavigator' }, // Replace with your actual TabNavigator screen name
+              ],
+            })
+          );
+  
+        
+      } catch (error) {
+       
+        console.error("Login error: ", error);
+        Alert.alert("Login Failed", "Please check your credentials.");
+      }
+    }
+  };
+
   return (
-    <View>
-      <Text onPress={loggingin}>Login</Text>
+    <View style={styles.container}>
+              <Image source={require('../assets/Logo.png')} style={[styles.image, { resizeMode: 'contain'}]}/>
+        
+            <Text style={styles.inputLabel} >Email</Text>
+            <TextInput style={styles.input} onChangeText={(newValue) => setEmail(newValue)}/>
+            
+            <Text style={styles.inputLabel}>password</Text>
+            <TextInput style={styles.input} onChangeText={(newValue) => setPassword(newValue)}/>
+        
+
+<TouchableOpacity onPress={logOn} style={styles.button}>
+    <Text>Login</Text>
+</TouchableOpacity>
+<Text onPress={() => navigation.navigate('Register')}>Create an account</Text>
+      {/* <Text onPress={loggingin}>Login</Text> */}
     </View>
   )
 }
 
 export default Login
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center", 
+        alignItems: "center"
+      },
+      image: {
+        flex: 0.3,
+        height: 100,
+        justifyContent: 'center',
+        marginBottom: 100
+      },
+      inputLabel: {
+        fontSize: 12,
+        marginTop: 20,
+        alignItems: "center",
+        marginBottom: 5,
+        color: 'black'
+    },
+      input: {
+        backgroundColor: '#393B3F',
+        height: 50,
+        width: 300,
+        borderRadius: 20,
+        color: 'white',
+        alignSelf: 'center',
+        paddingLeft: 20
+    },
+    button: {
+        width: 200,
+        backgroundColor: '#AF8EFF',
+        borderRadius: 15,
+        padding: 20,
+        alignItems: "center",
+        marginTop: 50,
+        marginBottom: 20
+
+    }
+    
+})
