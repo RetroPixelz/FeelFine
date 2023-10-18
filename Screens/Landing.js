@@ -18,6 +18,7 @@ const Landing = () => {
 
   return (
     <ScrollView style={styles.container}>
+      
       <View style={styles.heroBox}>
         <Text style={styles.heroText}>Get Journaling</Text>
         <Text style={styles.heroPara} >Before we can give you a summary of your mental health score for the last month, you need to make an entry first</Text>
@@ -29,11 +30,11 @@ const Landing = () => {
         </Button> */}
       </View>
 
-      <View style={styles.Categories}>
+      {/* <View style={styles.Categories}>
         <View style={styles.Doctors}></View>
         <View style={styles.Exercises}></View>
 
-      </View>
+      </View> */}
 
       <View style={styles.YourEntries}>
         <Text style={styles.entriesText}> Your Entries </Text>
@@ -50,9 +51,6 @@ const Landing = () => {
 
 
         <View style={styles.Entry}>
-        <TouchableOpacity onPress={clearOnboarding}>
-        <Text>clear Onboarding</Text>
-      </TouchableOpacity>
           <View style={styles.EntryBlock}></View>
           <View style={styles.EntryTextBlock}>
             <Text> Monday 25-35-2010</Text>
@@ -68,6 +66,9 @@ const Landing = () => {
           </View>
         </View>
       </View>
+      <TouchableOpacity onPress={clearOnboarding} style={styles.clear}>
+        <Text>clear Onboarding</Text>
+      </TouchableOpacity>
       
     </ScrollView>
   )
@@ -167,6 +168,15 @@ const styles = StyleSheet.create({
   },
   EntryThumbnail: {
     fontSize: 10
+  },
+  clear: {
+    width: 200,
+    height: 30,
+    borderRadius: 10,
+    margin: 20,
+    backgroundColor: "#AF8EFF",
+    justifyContent: 'center', // Center child view vertically
+    alignItems: 'center', // Center child view horizontally
   }
 
 

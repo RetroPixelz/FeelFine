@@ -39,7 +39,7 @@ function TabNavigator() {
     >
       
        <Tab.Screen
-        name="Landing"
+        name="Home"
         component={Landing}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -111,7 +111,7 @@ export default function App({navigation, props}) {
         <TabNavigator />
       ) : (
         <Stack.Navigator initialRouteName="Onboarding">
-          <Stack.Screen name="Onboarding" component={Onboarding} />
+          <Stack.Screen name="Onboarding" component={Onboarding}  options={{ headerShown: false }}/>
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
 
@@ -121,10 +121,6 @@ export default function App({navigation, props}) {
         </Stack.Navigator>
       )}
     </NavigationContainer>
-    // <NavigationContainer>
-    //   {loading ? <Loading /> : viewedOnboarding ? <TabNavigator /> : <Onboarding/>}
-    //   {/* <TabNavigator /> */}
-    // </NavigationContainer>
   );
 }
 

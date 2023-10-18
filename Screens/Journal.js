@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
       },
       CameraBox: {
         width: 75,
-        height: 65,
+        height: 55,
         backgroundColor: "#8B80F8",
         borderRadius: 5,
         justifyContent: "center",
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
       },
       Analyse: { 
         width: 255,
-        height:  65,
+        height:  55,
         backgroundColor: "#8B80F8",
         marginLeft: 20,
         borderRadius: 5,
