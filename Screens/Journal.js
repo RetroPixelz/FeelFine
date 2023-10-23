@@ -1,10 +1,48 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import { saveJournalEntry } from '../Services/firebasedb';
+import { getCurrentUser, signOutUser } from '../Services/firebaseAuth';
 
 
 const Journal = () => {
-    const [text, onChangeText] = useState('Useless Text');
+
+  const user = getCurrentUser()
+
+  const userId = user.uid;
+
+  const [entry, setEntry] = useState('Useless Text');
+  const [mood, setMood] = useState('');
+
+ 
+
+// useEffect(() => {
+//   console.log(userId);
+// })
+
+const CreateEntry = async () => {
+  var JournalEntry = {
+    entry,
+    // mood
+  }
+
+  //sentiment analyss save in array en dan save dit saam met die entry hier onder saam JournalEntry
+  // var skins = []
+  // image && skins.push({imageUrl: image, title: name})
+
+  const success = await saveJournalEntry(userId, JournalEntry)
+            if (success) {
+                console.log("Added Journal successfully")
+                Alert.alert("Added Journal successfully")
+                
+                
+            } else {
+                console.log("Whoops... adding Entry failed.")
+                Alert.alert("whoops", "something went wrong when trying to add Journal Entry")
+            }
+}
+
+
   return (
     <View style={styles.container}>
         <Text>How are you feeling today?</Text>
@@ -18,18 +56,18 @@ const Journal = () => {
       <View style={styles.JournalSection}> 
       <Text style={styles.HowWasDay}>How was your day</Text>
       <TextInput style={styles.input}
-          onChangeText={onChangeText}
-          value={text}
+          onChangeText={setEntry}
+          value={entry}
           multiline={true} // Enable multiline input
           numberOfLines={1} 
       />
       <View style={styles.submitBox}>
-        <View style={styles.CameraBox}>
+        <TouchableOpacity style={styles.CameraBox}>
         <MaterialCommunityIcons name="camera-outline" color={"white"} size={40} />
-        </View>
-        <View style={styles.Analyse}> 
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.Analyse} onPress={CreateEntry}> 
            <Text style={styles.AnalyseText}>Analyse</Text>
-        </View>                         
+        </TouchableOpacity>                         
       </View>                
       </View>                        
     </View>

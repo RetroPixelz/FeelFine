@@ -8,66 +8,55 @@ import { signInUser } from '../Services/firebaseAuth';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-const navigation = useNavigation();
 
-const loggingin = () => {
-    navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [
-            { name: 'tabNavigator' }, // Replace with your actual TabNavigator screen name
-          ],
-        })
-      );
-    
-}
+    const navigation = useNavigation();
 
-const logOn = async () => {
-   
-    if (!email || !password) {
-      Alert.alert("Whoops", "Please provide your email and password");
-    } else {
-      try {
-        // Attempt to sign in the user
-        await signInUser(email, password);
-  
-        //navigate if loggin was successfull
-        navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [
-                { name: 'tabNavigator' }, // Replace with your actual TabNavigator screen name
-              ],
-            })
-          );
-  
-        
-      } catch (error) {
-       
-        console.error("Login error: ", error);
-        Alert.alert("Login Failed", "Please check your credentials.");
-      }
-    }
-  };
+    const logOn = async () => {
 
-  return (
-    <View style={styles.container}>
-              <Image source={require('../assets/Logo.png')} style={[styles.image, { resizeMode: 'contain'}]}/>
-        
+        if (!email || !password) {
+            Alert.alert("Whoops", "Please provide your email and password");
+        } else {
+            try {
+                // Attempt to sign in the user
+                await signInUser(email, password);
+
+                //navigate if loggin was successfull
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [
+                            { name: 'tabNavigator' },
+                        ],
+                    })
+                );
+
+
+            } catch (error) {
+
+                console.error("Login error: ", error);
+                Alert.alert("Login Failed", "Please check your credentials.");
+            }
+        }
+    };
+
+    return (
+        <View style={styles.container}>
+            <Image source={require('../assets/Logo.png')} style={[styles.image, { resizeMode: 'contain' }]} />
+
             <Text style={styles.inputLabel} >Email</Text>
-            <TextInput style={styles.input} onChangeText={(newValue) => setEmail(newValue)}/>
-            
-            <Text style={styles.inputLabel}>password</Text>
-            <TextInput style={styles.input} onChangeText={(newValue) => setPassword(newValue)}/>
-        
+            <TextInput style={styles.input} onChangeText={(newValue) => setEmail(newValue)} />
 
-<TouchableOpacity onPress={logOn} style={styles.button}>
-    <Text>Login</Text>
-</TouchableOpacity>
-<Text onPress={() => navigation.navigate('Register')}>Create an account</Text>
-      {/* <Text onPress={loggingin}>Login</Text> */}
-    </View>
-  )
+            <Text style={styles.inputLabel}>password</Text>
+            <TextInput style={styles.input} onChangeText={(newValue) => setPassword(newValue)} />
+
+
+            <TouchableOpacity onPress={logOn} style={styles.button}>
+                <Text>Login</Text>
+            </TouchableOpacity>
+            <Text onPress={() => navigation.navigate('Register')}>Create an account</Text>
+            {/* <Text onPress={loggingin}>Login</Text> */}
+        </View>
+    )
 }
 
 export default Login
@@ -75,24 +64,24 @@ export default Login
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center", 
+        justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#FFFFFF",
-      },
-      image: {
+    },
+    image: {
         flex: 0.3,
         height: 100,
         justifyContent: 'center',
         marginBottom: 100
-      },
-      inputLabel: {
+    },
+    inputLabel: {
         fontSize: 12,
         marginTop: 20,
         alignItems: "center",
         marginBottom: 5,
         color: 'black'
     },
-      input: {
+    input: {
         backgroundColor: '#F5F6FA',
         height: 50,
         width: 300,
@@ -111,5 +100,5 @@ const styles = StyleSheet.create({
         marginBottom: 20
 
     }
-    
+
 })

@@ -1,20 +1,32 @@
 import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { signOutUser } from '../Services/firebaseAuth'
+import { useNavigation } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 
 const Landing = () => {
+
+  const navigation = useNavigation();
+
+  const Signout = async () => {
+    signOutUser();
+    //TODO: add navigation to navigate to login when signing out
+  }
 
   const clearOnboarding = async () => {
     try {
       await AsyncStorage.removeItem('@viewedOnboarding')
     } catch (err) {
-        console.log("Error @clearOnboarding: ", err)
+      console.log("Error @clearOnboarding: ", err)
     }
   }
 
+
+
   const Entries = [
-    {title: 'what a rough day', entry: 'today was a rough day at work, i had a bit of a fight with someone and i dont feel good about it'},
-    {title: 'what a rough night', entry: 'today was a rough day at work, i had a bit of a fight with someone and i dont feel good about it'}
+    { title: 'what a rough day', entry: 'today was a rough day at work, i had a bit of a fight with someone and i dont feel good about it' },
+    { title: 'what a rough night', entry: 'today was a rough day at work, i had a bit of a fight with someone and i dont feel good about it' }
 
   ]
 
@@ -22,69 +34,41 @@ const Landing = () => {
 
   return (
     <ScrollView style={styles.container}>
-      
+
       <View style={styles.heroBox}>
         <Text style={styles.heroText}>Get Journaling</Text>
         <Text style={styles.heroPara} >Before we can give you a summary of your mental health score for the last month, you need to make an entry first</Text>
         <TouchableOpacity style={styles.MakeEntry}>
           <Text style={styles.MakeEntryText}>Make an entry</Text>
         </TouchableOpacity>
-        {/* <Button style={styles.MakeEntry}>
-
-        </Button> */}
       </View>
 
-      {/* <View style={styles.Categories}>
-        <View style={styles.Doctors}></View>
-        <View style={styles.Exercises}></View>
-
-      </View> */}
 
       <View style={styles.YourEntries}>
         <Text style={styles.entriesText}> Your Entries </Text>
+
         {Entries.map((Entry, index) => (
-    <TouchableOpacity key={index}
-       activeOpacity={0.75}>
-       <View style={styles.Entry}>
-          <View style={styles.EntryBlock}></View>
-          <View style={styles.EntryTextBlock}>
-            <Text> {Entry.title}</Text>
-            <Text style={styles.EntryThumbnail}> {Entry.entry} </Text>
-          </View>
-        </View>
-    </TouchableOpacity>
- ))}
+          <TouchableOpacity key={index}
+            activeOpacity={0.75}>
+            <View style={styles.Entry}>
+              <View style={styles.EntryBlock}></View>
+              <View style={styles.EntryTextBlock}>
+                <Text> {Entry.title}</Text>
+                <Text style={styles.EntryThumbnail}> {Entry.entry} </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
 
-        {/* maak die n component */}
-        {/* <View style={styles.Entry}>
-          <View style={styles.EntryBlock}></View>
-          <View style={styles.EntryTextBlock}>
-            <Text> Monday 25-35-2010</Text>
-            <Text style={styles.EntryThumbnail}> today was a rough day it was all ofver the place</Text>
-          </View>
-        </View>
-
-
-        <View style={styles.Entry}>
-          <View style={styles.EntryBlock}></View>
-          <View style={styles.EntryTextBlock}>
-            <Text> Monday 25-35-2010</Text>
-            <Text style={styles.EntryThumbnail}> today was a rough day it was all ofver the place</Text>
-          </View>
-        </View>
-
-        <View style={styles.Entry}>
-          <View style={styles.EntryBlock}></View>
-          <View style={styles.EntryTextBlock}>
-            <Text> Monday 25-35-2010</Text>
-            <Text style={styles.EntryThumbnail}> today was a rough day it was all ofver the place</Text>
-          </View>
-        </View> */}
       </View>
       <TouchableOpacity onPress={clearOnboarding} style={styles.clear}>
         <Text>clear Onboarding</Text>
       </TouchableOpacity>
-      
+
+      <TouchableOpacity onPress={Signout} style={styles.clear}>
+        <Text>Sign out</Text>
+      </TouchableOpacity>
+
     </ScrollView>
   )
 }

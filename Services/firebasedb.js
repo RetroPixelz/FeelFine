@@ -19,18 +19,21 @@ export const createUserInDb = async (email, username, uid) => {
 
 }
 
-
-
 //EXAMPLE OF CREATING JOURNAL ENTRY IN DB
-// const saveJournalEntry = async (userId, entry) => {
-//   const userDocRef = doc(db, 'users', userId);
-//   try {
-//     // Assuming 'journalEntries' is a subcollection for journal entries.
-//     await setDoc(doc(userDocRef, 'journalEntries', new Date().toISOString()), {
-//       entry,
-//       timestamp: new Date(),
-//     });
-//   } catch (error) {
-//     console.error('Error saving journal entry:', error);
-//   }
-// };
+export const saveJournalEntry = async (userId, JournalEntry) => {
+    const userDocRef = doc(db, 'users', userId);
+    try {
+      
+      await setDoc(doc(userDocRef, 'journalEntries', new Date().toISOString()), {
+        JournalEntry,
+      
+      });
+    } catch (error) {
+      console.error('Error saving journal entry:', error);
+    }
+  };
+
+
+
+
+
