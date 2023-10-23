@@ -12,9 +12,13 @@ const Landing = () => {
     }
   }
 
+  const Entries = [
+    {title: 'what a rough day', entry: 'today was a rough day at work, i had a bit of a fight with someone and i dont feel good about it'},
+    {title: 'what a rough night', entry: 'today was a rough day at work, i had a bit of a fight with someone and i dont feel good about it'}
+
+  ]
 
   //if statement wat usestates set vir die hero text, if no entry dan wys die get journaling, as da entries is dan wys health score
-
 
   return (
     <ScrollView style={styles.container}>
@@ -38,10 +42,21 @@ const Landing = () => {
 
       <View style={styles.YourEntries}>
         <Text style={styles.entriesText}> Your Entries </Text>
-
+        {Entries.map((Entry, index) => (
+    <TouchableOpacity key={index}
+       activeOpacity={0.75}>
+       <View style={styles.Entry}>
+          <View style={styles.EntryBlock}></View>
+          <View style={styles.EntryTextBlock}>
+            <Text> {Entry.title}</Text>
+            <Text style={styles.EntryThumbnail}> {Entry.entry} </Text>
+          </View>
+        </View>
+    </TouchableOpacity>
+ ))}
 
         {/* maak die n component */}
-        <View style={styles.Entry}>
+        {/* <View style={styles.Entry}>
           <View style={styles.EntryBlock}></View>
           <View style={styles.EntryTextBlock}>
             <Text> Monday 25-35-2010</Text>
@@ -64,7 +79,7 @@ const Landing = () => {
             <Text> Monday 25-35-2010</Text>
             <Text style={styles.EntryThumbnail}> today was a rough day it was all ofver the place</Text>
           </View>
-        </View>
+        </View> */}
       </View>
       <TouchableOpacity onPress={clearOnboarding} style={styles.clear}>
         <Text>clear Onboarding</Text>

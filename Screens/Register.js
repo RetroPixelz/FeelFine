@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { registerNewUser } from '../Services/firebaseAuth';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
+
+
 
 
 const Register = () => {
@@ -14,9 +16,32 @@ const Register = () => {
 
 
     const registerUser = async () => {
-        console.log("Registering...")
-        registerNewUser(username, email, password)
-        // navigation.goBack()
+
+        if (!email || !password ) {
+            Alert.alert("Whoops", "Please provide your email and password");
+          } else {
+            try {
+              // Attempt to sign in the user
+              console.log("Registering...")
+              registerNewUser(username, email, password)
+        
+              //navigate if loggin was successfull
+              navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [
+                      { name: 'Login' }, // Replace with your actual TabNavigator screen name
+                    ],
+                  })
+                );
+        
+              
+            } catch (error) {
+             
+              console.error("Regsister error: ", error);
+              Alert.alert("Register Failed", "Please check your credentials.");
+            }
+          }
         }
     
       return (
@@ -48,7 +73,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center", 
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "#FFFFFF",
       },
       image: {
         flex: 0.3,
@@ -64,11 +90,11 @@ const styles = StyleSheet.create({
         color: 'black'
     },
       input: {
-        backgroundColor: '#393B3F',
+        backgroundColor: '#F5F6FA',
         height: 50,
         width: 300,
         borderRadius: 20,
-        color: 'white',
+        color: 'black',
         alignSelf: 'center',
         paddingLeft: 20
     },

@@ -1,88 +1,56 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Doctors = ({navigation}) => (
-  <View style={styles.container}>
-    <Text style={styles.heroText}>Let's find a doctor</Text>
+const Doctors = ({ navigation }) => {
+  const Doctors = [
+    { name: 'Dr. Jones', Proffesion: 'Psycholigist', contact: 'Jones@gmail.com', Location: 'Menlyn Main' },
+    { name: 'Dr. Jones', Proffesion: 'Psycholigist', contact: 'Jones@gmail.com', Location: 'Menlyn Main' },
+    { name: 'Dr. Jones', Proffesion: 'Psycholigist', contact: 'Jones@gmail.com', Location: 'Menlyn Main' },
+    { name: 'Dr. Jones', Proffesion: 'Psycholigist', contact: 'Jones@gmail.com', Location: 'Menlyn Main' },
+  ]
 
-    <View style={styles.searchBar}>
-      <Text style={styles.searchBarText}>
-        Search for a doctor
-      </Text>
+  return (
+    <View style={styles.container}>
+
+      <Text style={styles.heroText}>Let's find a doctor</Text>
+
+      <View style={styles.searchBar}>
+        <Text style={styles.searchBarText}>
+          Search for a doctor
+        </Text>
+      </View>
+
+      <ScrollView style={styles.DoctorCardSection}>
+
+        {Doctors.map((Doctor, index) => (
+          <View style={styles.DoctorCard} key={index}>
+
+            <View style={styles.DoctorDetails}>
+              <View style={styles.DoctorImage}>
+
+              </View>
+              <View style={styles.DetailSection}>
+                <Text style={styles.DoctorName}>{Doctor.name}</Text>
+                <Text style={styles.Proffesion}>{Doctor.Proffesion}</Text>
+                <Text style={styles.Location}>{Doctor.Location}</Text>
+              </View>
+            </View>
+
+            <View style={styles.BottomSection}>
+              <Text style={styles.contact}>{Doctor.contact}</Text>
+              <View style={styles.GetInTouch}>
+                <Text style={styles.GetInTouchText}>Get In Touch</Text>
+              </View>
+            </View>
+
+          </View>
+        ))}
+
+      </ScrollView>
+
     </View>
-
-    <ScrollView style={styles.DoctorCardSection}>
-
-      <View style={styles.DoctorCard}>
-          <View style={styles.DoctorDetails}>
-            <View style={styles.DoctorImage}>
-
-            </View>
-            <View style={styles.DetailSection}>
-              <Text style={styles.DoctorName}>Dr.Lincoln</Text>
-              <Text style={styles.Proffesion}>Psychiatrist</Text>
-              <Text style={styles.Location}>Menlyn Main</Text>
-            </View>
-            
-          </View>
-
-          <View style={styles.BottomSection}>
-          <Text>0528332005</Text>
-          <View style={styles.GetInTouch}>
-            <Text style={styles.GetInTouchText}>Get In Touch</Text>
-          </View>
-          </View>
-          
-      </View>
-
-      <View style={styles.DoctorCard}>
-          <View style={styles.DoctorDetails}>
-            <View style={styles.DoctorImage}>
-
-            </View>
-            <View style={styles.DetailSection}>
-              <Text style={styles.DoctorName}>Dr.Lincoln</Text>
-              <Text style={styles.Proffesion}>Psychiatrist</Text>
-              <Text style={styles.Location}>Menlyn Main</Text>
-            </View>
-            
-          </View>
-
-          <View style={styles.BottomSection}>
-          <Text>0528332005</Text>
-          <View style={styles.GetInTouch}>
-            <Text style={styles.GetInTouchText}>Get In Touch</Text>
-          </View>
-          </View>
-          
-      </View>
-
-      <View style={styles.DoctorCard}>
-          <View style={styles.DoctorDetails}>
-            <View style={styles.DoctorImage}>
-
-            </View>
-            <View style={styles.DetailSection}>
-              <Text style={styles.DoctorName}>Dr.Lincoln</Text>
-              <Text style={styles.Proffesion}>Psychiatrist</Text>
-              <Text style={styles.Location}>Menlyn Main</Text>
-            </View>
-            
-          </View>
-
-          <View style={styles.BottomSection}>
-          <Text>0528332005</Text>
-          <View style={styles.GetInTouch}>
-            <Text style={styles.GetInTouchText}>Get In Touch</Text>
-          </View>
-          </View>
-          
-      </View>
-
-    </ScrollView>
-
-  </View>
-)
+  )
+}
 
 export default Doctors
 
@@ -90,7 +58,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    alignItems: 'center', // Center horizontally
+    alignItems: 'center', 
     padding: 25
   },
   heroText: {
@@ -108,7 +76,7 @@ const styles = StyleSheet.create({
   searchBarText: {
     color: "black",
     fontSize: 15
-  }, 
+  },
   DoctorCardSection: {
     marginTop: 30,
     width: 360
@@ -124,7 +92,6 @@ const styles = StyleSheet.create({
   DoctorDetails: {
     width: 325,
     height: 100,
-    // backgroundColor: "red",
     flexDirection: "row"
   },
   DoctorImage: {
@@ -150,15 +117,15 @@ const styles = StyleSheet.create({
     fontSize: 12.5
   },
   BottomSection: {
-   flexDirection: "row",
-   marginTop: 25,
-   alignItems: "center"
+    flexDirection: "row",
+    marginTop: 25,
+    alignItems: "center"
   },
   GetInTouch: {
     width: 150,
-    height: 40, 
+    height: 40,
     backgroundColor: "#8B80F8",
-    marginLeft: 80,
+    marginLeft: 20,
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center"
@@ -167,8 +134,8 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 15,
     fontWeight: "bold",
-    
+  },
+  contact: {
+    width: 150,
   }
-
-  
 })

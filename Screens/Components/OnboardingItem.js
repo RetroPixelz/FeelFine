@@ -28,9 +28,10 @@ const styles = StyleSheet.create({
         alignItems: "center"
       },
       image: {
-        flex: 0.4,
+        flex: 0.3,
         height: 200,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginBottom: 40
       },
       title: {
         fontWeight: 800,

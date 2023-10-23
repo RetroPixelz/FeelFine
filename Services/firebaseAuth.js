@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, up
 import {  auth } from '../firebase'
 import { Alert } from 'react-native';
 import { createUserInDb } from './firebasedb';
-// import { createUserInDb } from './firebasedb';
+
 
 export const registerNewUser = (username, email, password) => {
 

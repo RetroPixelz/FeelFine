@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center", 
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "#FFFFFF",
       },
       image: {
         flex: 0.3,
@@ -92,11 +93,11 @@ const styles = StyleSheet.create({
         color: 'black'
     },
       input: {
-        backgroundColor: '#393B3F',
+        backgroundColor: '#F5F6FA',
         height: 50,
         width: 300,
         borderRadius: 20,
-        color: 'white',
+        color: 'black',
         alignSelf: 'center',
         paddingLeft: 20
     },

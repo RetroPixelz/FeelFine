@@ -18,10 +18,10 @@ const Journal = () => {
       <View style={styles.JournalSection}> 
       <Text style={styles.HowWasDay}>How was your day</Text>
       <TextInput style={styles.input}
-      onChangeText={onChangeText}
-      value={text}
-      multiline={true} // Enable multiline input
-  numberOfLines={1} 
+          onChangeText={onChangeText}
+          value={text}
+          multiline={true} // Enable multiline input
+          numberOfLines={1} 
       />
       <View style={styles.submitBox}>
         <View style={styles.CameraBox}>

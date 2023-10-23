@@ -17,6 +17,9 @@ import Register from './Screens/Register';
 
 const Tab = createBottomTabNavigator();
 
+//make entries on home page color based on how the user feels
+//
+
 const Loading = () => {
   <View>
     <ActivityIndicator size="large" />
@@ -32,7 +35,7 @@ function TabNavigator() {
       style: {
         backgroundColor: 'purple', // Background color of the tab bar
       },
-      activeTintColor: 'purple', // Color for active tab icons
+      activeTintColor: '#AF8EFF', // Color for active tab icons
       inactiveTintColor: 'gray', // Color for inactive tab icons
       
     }}
@@ -114,10 +117,7 @@ export default function App({navigation, props}) {
           <Stack.Screen name="Onboarding" component={Onboarding}  options={{ headerShown: false }}/>
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
-
           <Stack.Screen name="tabNavigator" component={TabNavigator} options={{ headerShown: false }}/>
-
-          {/* Add other screens to the stack as needed */}
         </Stack.Navigator>
       )}
     </NavigationContainer>
