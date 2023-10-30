@@ -19,16 +19,16 @@ const Login = () => {
             try {
                 // Attempt to sign in the user
                 await signInUser(email, password);
-
                 //navigate if loggin was successfull
-                navigation.dispatch(
-                    CommonActions.reset({
-                        index: 0,
-                        routes: [
-                            { name: 'tabNavigator' },
-                        ],
-                    })
-                );
+                navigation.navigate('tabNavigator');
+                // navigation.dispatch(
+                //     CommonActions.reset({
+                //         index: 0,
+                //         routes: [
+                //             { name: 'tabNavigator' },
+                //         ],
+                //     })
+                // );
 
 
             } catch (error) {

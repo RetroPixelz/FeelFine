@@ -14,8 +14,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import Login from './Screens/Login';
 import Register from './Screens/Register';
+import EntryDetails from './Screens/EntryDetails';
+
 
 const Tab = createBottomTabNavigator();
+// const LoginStack = createStackNavigator();
+
 
 //make entries on home page color based on how the user feels
 //
@@ -40,7 +44,7 @@ function TabNavigator() {
       
     }}
     >
-      
+ 
        <Tab.Screen
         name="Home"
         component={Landing}
@@ -116,8 +120,11 @@ export default function App({navigation, props}) {
         <Stack.Navigator initialRouteName="Onboarding">
           <Stack.Screen name="Onboarding" component={Onboarding}  options={{ headerShown: false }}/>
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+          <Stack.Screen name="EntryDetails" component={EntryDetails} options={{ headerShown: false }}/>
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
           <Stack.Screen name="tabNavigator" component={TabNavigator} options={{ headerShown: false }}/>
+
+          {/* <Stack.Screen name="LoginStack" component={Login} options={{ headerShown: false }} /> */}
         </Stack.Navigator>
       )}
     </NavigationContainer>

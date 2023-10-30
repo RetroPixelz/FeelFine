@@ -1,16 +1,48 @@
 import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { signOutUser } from '../Services/firebaseAuth'
+import { getCurrentUser, signOutUser } from '../Services/firebaseAuth'
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
+import { GetUserEntries } from '../Services/firebasedb';
 
 const Landing = () => {
+  //consts
+  const user = getCurrentUser()
+  // const userId = user.uid;
+
+  useEffect(() => {
+    const user = getCurrentUser();
+
+    if (user) {
+      setUid(user.uid);
+    }
+  }, []);
+
+
 
   const navigation = useNavigation();
 
+  //usestates
+  const [AllEntries, setAllEntries] = useState([])
+  const [uid, setUid] = useState()
+
+
+  //functions
+  const getEntries = async () => {
+    try {
+      console.log("getting data")
+      const UserEntries = await GetUserEntries(uid)
+      setAllEntries(UserEntries)
+      console.log(AllEntries)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const Signout = async () => {
     signOutUser();
+    // navigation.navigate('LoginStack');
     //TODO: add navigation to navigate to login when signing out
   }
 
@@ -22,12 +54,10 @@ const Landing = () => {
     }
   }
 
-
-
+  //Dummy Data
   const Entries = [
     { title: 'what a rough day', entry: 'today was a rough day at work, i had a bit of a fight with someone and i dont feel good about it' },
     { title: 'what a rough night', entry: 'today was a rough day at work, i had a bit of a fight with someone and i dont feel good about it' }
-
   ]
 
   //if statement wat usestates set vir die hero text, if no entry dan wys die get journaling, as da entries is dan wys health score
@@ -49,12 +79,13 @@ const Landing = () => {
 
         {Entries.map((Entry, index) => (
           <TouchableOpacity key={index}
+          onPress={() => navigation.navigate("EntryDetails", { Entry })}
             activeOpacity={0.75}>
             <View style={styles.Entry}>
               <View style={styles.EntryBlock}></View>
               <View style={styles.EntryTextBlock}>
                 <Text> {Entry.title}</Text>
-                <Text style={styles.EntryThumbnail}> {Entry.entry} </Text>
+                <Text style={styles.EntryThumbnail}>  </Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -67,6 +98,10 @@ const Landing = () => {
 
       <TouchableOpacity onPress={Signout} style={styles.clear}>
         <Text>Sign out</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={getEntries} style={styles.clear}>
+        <Text>test</Text>
       </TouchableOpacity>
 
     </ScrollView>
