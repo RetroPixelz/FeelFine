@@ -88,8 +88,10 @@ const Journal = () => {
 
       <View style={styles.TitleBox}>
         <TextInput style={styles.titleInput}
-        onChange={setTitle}
+        onChangeText={setTitle}
         value={title}
+        multiline={true} 
+        numberOfLines={1}
         />
       </View>
         

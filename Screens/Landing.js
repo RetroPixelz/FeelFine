@@ -27,18 +27,37 @@ const Landing = () => {
   const [AllEntries, setAllEntries] = useState([])
   const [uid, setUid] = useState()
 
-
-  //functions
   const getEntries = async () => {
     try {
-      console.log("getting data")
-      const UserEntries = await GetUserEntries(uid)
-      setAllEntries(UserEntries)
-      console.log(AllEntries)
+      console.log("Getting data");
+      const UserEntries = await GetUserEntries(uid);
+      setAllEntries(UserEntries);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
+
+  // Use useEffect to log AllEntries after it's updated
+  useEffect(() => {
+    console.log(AllEntries);
+  }, [AllEntries]);
+
+
+  // const truncateText = (text, numWords) => {
+  //   const words = text.split(' ');
+  //   return words.slice(0, numWords).join(' ');
+  // };
+  //functions
+  // const getEntries = async () => {
+  //   try {
+  //     console.log("getting data")
+  //     const UserEntries = await GetUserEntries(uid)
+  //     setAllEntries(UserEntries)
+  //     console.log(AllEntries)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   const Signout = async () => {
     signOutUser();
@@ -77,15 +96,23 @@ const Landing = () => {
       <View style={styles.YourEntries}>
         <Text style={styles.entriesText}> Your Entries </Text>
 
-        {Entries.map((Entry, index) => (
+        {AllEntries.map((Entry, index) => (
           <TouchableOpacity key={index}
-          onPress={() => navigation.navigate("EntryDetails", { Entry })}
+            onPress={() => navigation.navigate("EntryDetails", { Entry })}
             activeOpacity={0.75}>
             <View style={styles.Entry}>
               <View style={styles.EntryBlock}></View>
               <View style={styles.EntryTextBlock}>
-                <Text> {Entry.title}</Text>
-                <Text style={styles.EntryThumbnail}>  </Text>
+                <Text> {Entry.JournalEntry.title}</Text>
+                <Text style={styles.EntryThumbnail}>
+                  {Entry.JournalEntry.text
+                    ? Entry.JournalEntry.text
+                      .split(' ')
+                      .slice(0, 10) // Display the first 20 words
+                      .join(' ')
+                    : ''} </Text>
+
+
               </View>
             </View>
           </TouchableOpacity>

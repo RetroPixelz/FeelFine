@@ -1,9 +1,17 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { BarChart, Grid } from 'react-native-svg-charts'
+// import * as shape from 'd3-shape'
 
 const EntryDetails = ({ route, navigation }) => {
     const { Entry } = route.params;
-    console.log(Entry)
+    // console.log(Entry)
+
+    const GraphData = Entry.JournalEntry.emotions
+    console.log(GraphData)
+
+    const fill = 'rgb(160, 65, 244)'
+    const data = GraphData
 
     const back = () => {
         navigation.goBack()
@@ -18,9 +26,13 @@ const EntryDetails = ({ route, navigation }) => {
     <ScrollView>
         
         <Text style={styles.overview}>Entry overview</Text>
-        <View style={styles.GraphOverview}></View>
-        <Text style={styles.EntryTitle}>Entry Title</Text>
-        <Text style={styles.Entry}>{Entry.entry}</Text>
+        <View style={styles.GraphOverview}>
+        <BarChart style={{ height: 200 }} data={data} svg={{ fill }} contentInset={{ top: 30, bottom: 30 }}>
+                
+            </BarChart>
+        </View>
+        <Text style={styles.EntryTitle}>{Entry.JournalEntry.title}</Text>
+        <Text style={styles.Entry}>{Entry.JournalEntry.text}</Text>
         <TouchableOpacity style={styles.Analyse} >
               <Text style={styles.AnalyseText}>Delete Entry</Text>
             </TouchableOpacity>
@@ -52,10 +64,11 @@ const styles = StyleSheet.create({
         
       },
       GraphOverview: {
+        marginLeft: 20,
         marginTop: 25,
-        width: 350,
-        height: 250,
-        backgroundColor: 'red'
+        width: 300,
+        height: 200,
+        // backgroundColor: 'red'
       },
       EntryTitle: {
         fontSize: 20,
