@@ -9,8 +9,14 @@ import { GetUserEntries } from '../Services/firebasedb';
 const Landing = () => {
   //consts
   const user = getCurrentUser()
+  const navigation = useNavigation();
   // const userId = user.uid;
 
+  //usestates
+  const [AllEntries, setAllEntries] = useState([])
+  const [uid, setUid] = useState()
+
+  
   useEffect(() => {
     const user = getCurrentUser();
 
@@ -18,14 +24,6 @@ const Landing = () => {
       setUid(user.uid);
     }
   }, []);
-
-
-
-  const navigation = useNavigation();
-
-  //usestates
-  const [AllEntries, setAllEntries] = useState([])
-  const [uid, setUid] = useState()
 
   const getEntries = async () => {
     try {
@@ -37,27 +35,48 @@ const Landing = () => {
     }
   };
 
-  // Use useEffect to log AllEntries after it's updated
+
   useEffect(() => {
-    console.log(AllEntries);
+    // console.log(AllEntries);
   }, [AllEntries]);
 
+// get average score for all entries
+  const averagesForSets = AllEntries.map(item => {
+    if (item.JournalEntry.emotions && item.JournalEntry.emotions.length > 0) {
+      const totalScore = item.JournalEntry.emotions.reduce((accumulator, emotionObject) => {
+        return accumulator + emotionObject.score;
+      }, 0);
 
-  // const truncateText = (text, numWords) => {
-  //   const words = text.split(' ');
-  //   return words.slice(0, numWords).join(' ');
-  // };
-  //functions
-  // const getEntries = async () => {
-  //   try {
-  //     console.log("getting data")
-  //     const UserEntries = await GetUserEntries(uid)
-  //     setAllEntries(UserEntries)
-  //     console.log(AllEntries)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+      return {
+        id: item.id,
+        averageScore: totalScore / item.JournalEntry.emotions.length,
+      };
+    } else {
+      return {
+        id: item.id,
+        averageScore: 0, // Default average when no emotions are present
+      };
+    }
+  });
+
+  console.log(averagesForSets.averageScore);
+
+  const scores = averagesForSets.map(item => item.averageScore);
+
+  // console.log('Individual Scores:', scores);
+  const minScore = Math.min(...scores); // Find the minimum score
+  const maxScore = Math.max(...scores); // Find the maximum score
+
+  // Define a function to scale the scores to the 0-10 range
+  function scaleToHealthScore(score) {
+    return ((score - minScore) / (maxScore - minScore)) * 10;
+  }
+
+  // Calculate the overall health score
+  const overallHealthScore = scores.reduce((accumulator, score) => accumulator + scaleToHealthScore(score), 0) / scores.length;
+
+  console.log('Overall Health Score:', overallHealthScore);
+
 
   const Signout = async () => {
     signOutUser();
