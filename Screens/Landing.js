@@ -1,22 +1,32 @@
-import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Alert } from 'react-native'
+import React, { useEffect, useState, useMemo } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getCurrentUser, signOutUser } from '../Services/firebaseAuth'
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 import { GetUserEntries } from '../Services/firebasedb';
 
+
 const Landing = () => {
-  //consts
-  const user = getCurrentUser()
+  const user = getCurrentUser();
   const navigation = useNavigation();
-  // const userId = user.uid;
+  const [AllEntries, setAllEntries] = useState([]);
+  const [uid, setUid] = useState();
+  const [HealthScore, setHealthScore] = useState("0");
 
-  //usestates
-  const [AllEntries, setAllEntries] = useState([])
-  const [uid, setUid] = useState()
+  const Signout = async () => {
+    signOutUser();
+    navigation.navigate("Login");
+  }
 
-  
+  const clearOnboarding = async () => {
+    try {
+      await AsyncStorage.removeItem('@viewedOnboarding');
+    } catch (err) {
+      console.log("Error @clearOnboarding: ", err);
+    }
+  }
+
   useEffect(() => {
     const user = getCurrentUser();
 
@@ -35,82 +45,119 @@ const Landing = () => {
     }
   };
 
+  useEffect(() => {
+
+    getEntries();
+  }, [uid]);
 
   useEffect(() => {
-    // console.log(AllEntries);
+    
+    if (AllEntries.length > 0) {
+      const averagesForSets = AllEntries.map(item => {
+        if (item && item.JournalEntry && Array.isArray(item.JournalEntry.emotions) && item.JournalEntry.emotions.length > 0) {
+          const totalScore = item.JournalEntry.emotions.reduce((accumulator, emotionObject) => {
+            return accumulator + emotionObject.score;
+          }, 0);
+
+          return {
+            id: item.id,
+            averageScore: totalScore / item.JournalEntry.emotions.length,
+          };
+        } else {
+          return {
+            id: item.id,
+            averageScore: 0,
+          };
+        }
+      });
+
+      const validScores = averagesForSets.filter(item => !isNaN(item.averageScore));
+      const scores = validScores.map(item => item.averageScore);
+
+      if (scores.length > 0) {
+        const minScore = Math.min(...scores);
+        const maxScore = Math.max(...scores);
+
+        function scaleToHealthScore(score) {
+          if (maxScore === minScore) {
+            return 0; // Prevent division by zero
+          }
+          return ((score - minScore) / (maxScore - minScore)) * 10;
+        }
+
+        const overallHealthScore = scores.reduce((accumulator, score) => accumulator + scaleToHealthScore(score), 0) / scores.length;
+
+        const roundedHealthScore = parseFloat(overallHealthScore).toFixed(1);
+        setHealthScore(roundedHealthScore);
+        console.log(HealthScore)
+
+
+      } else {
+        setHealthScore(0);
+      }
+    }
   }, [AllEntries]);
 
-// get average score for all entries
-  const averagesForSets = AllEntries.map(item => {
-    if (item.JournalEntry.emotions && item.JournalEntry.emotions.length > 0) {
-      const totalScore = item.JournalEntry.emotions.reduce((accumulator, emotionObject) => {
-        return accumulator + emotionObject.score;
-      }, 0);
-
-      return {
-        id: item.id,
-        averageScore: totalScore / item.JournalEntry.emotions.length,
-      };
+  const GetSuggestions = (HealthScore) => {
+    if (HealthScore <= 2) {
+      
+      return "score <= 2";
+    } else if (HealthScore <= 4) {
+      
+      return "score > 2 and <= 4";
+    } else if (HealthScore <= 6) {
+      
+      return "score > 4 and <= 6";
+    } else if (HealthScore <= 8) {
+      
+      return "score > 6 and <= 8";
+    } else if (HealthScore <= 10) {
+      
+      return "score > 8 and <= 10";
     } else {
-      return {
-        id: item.id,
-        averageScore: 0, // Default average when no emotions are present
-      };
+      
+      return "above 10";
     }
-  });
+  };
 
-  console.log(averagesForSets.averageScore);
+  
+  const handleRecommendation = () => {
+    const recommendation = GetSuggestions(HealthScore);
+    Alert.alert('Recommendation', recommendation);
+  };
 
-  const scores = averagesForSets.map(item => item.averageScore);
-
-  // console.log('Individual Scores:', scores);
-  const minScore = Math.min(...scores); // Find the minimum score
-  const maxScore = Math.max(...scores); // Find the maximum score
-
-  // Define a function to scale the scores to the 0-10 range
-  function scaleToHealthScore(score) {
-    return ((score - minScore) / (maxScore - minScore)) * 10;
-  }
-
-  // Calculate the overall health score
-  const overallHealthScore = scores.reduce((accumulator, score) => accumulator + scaleToHealthScore(score), 0) / scores.length;
-
-  console.log('Overall Health Score:', overallHealthScore);
-
-
-  const Signout = async () => {
-    signOutUser();
-    // navigation.navigate('LoginStack');
-    //TODO: add navigation to navigate to login when signing out
-  }
-
-  const clearOnboarding = async () => {
-    try {
-      await AsyncStorage.removeItem('@viewedOnboarding')
-    } catch (err) {
-      console.log("Error @clearOnboarding: ", err)
-    }
-  }
-
-  //Dummy Data
-  const Entries = [
-    { title: 'what a rough day', entry: 'today was a rough day at work, i had a bit of a fight with someone and i dont feel good about it' },
-    { title: 'what a rough night', entry: 'today was a rough day at work, i had a bit of a fight with someone and i dont feel good about it' }
-  ]
-
-  //if statement wat usestates set vir die hero text, if no entry dan wys die get journaling, as da entries is dan wys health score
 
   return (
     <ScrollView style={styles.container}>
+      {AllEntries.length === 0 ? (
+        <View style={styles.heroBox}>
+          <Text style={styles.heroText}>Get Journaling</Text>
+          <Text style={styles.heroPara}>
+            Before we can give you a summary of your mental health score for the last month, you need to make an entry first
+          </Text>
+          <TouchableOpacity style={styles.MakeEntry}>
+            <Text style={styles.MakeEntryText}>Make an entry</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.heroBoxWithHealthScore}>
+          <View style={styles.healthScoreActiveBox}>
+            <View style={styles.healthScoreDisplay}>
+              <Text style={styles.healthScore}>{HealthScore}</Text>
 
-      <View style={styles.heroBox}>
-        <Text style={styles.heroText}>Get Journaling</Text>
-        <Text style={styles.heroPara} >Before we can give you a summary of your mental health score for the last month, you need to make an entry first</Text>
-        <TouchableOpacity style={styles.MakeEntry}>
-          <Text style={styles.MakeEntryText}>Make an entry</Text>
-        </TouchableOpacity>
-      </View>
+            </View>
 
+            <Text style={styles.heroPara}>
+              Your average mental health score is calculated based on the scores gathered from your journal entries.
+            </Text>
+          </View>
+
+          <TouchableOpacity onPress={handleRecommendation} style={styles.recommend}>
+            <Text style={styles.recommendText}>Get Recommendation</Text>
+          </TouchableOpacity>
+
+        </View>
+      )}
 
       <View style={styles.YourEntries}>
         <Text style={styles.entriesText}> Your Entries </Text>
@@ -127,7 +174,7 @@ const Landing = () => {
                   {Entry.JournalEntry.text
                     ? Entry.JournalEntry.text
                       .split(' ')
-                      .slice(0, 10) // Display the first 20 words
+                      .slice(0, 10) 
                       .join(' ')
                     : ''} </Text>
 
@@ -150,6 +197,8 @@ const Landing = () => {
         <Text>test</Text>
       </TouchableOpacity>
 
+
+
     </ScrollView>
   )
 }
@@ -160,15 +209,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    // alignItems: 'center', // Center horizontally
     padding: 25
   },
   heroBox: {
-    width: 350, // Adjust width as needed
-    // height: 160, // Adjust height as needed
-    backgroundColor: '#F5F6FA', // Optional background color
-    justifyContent: 'center', // Center child view vertically
-    alignItems: 'center', // Center child view horizontally
+    width: 350,
+    height: 200,
+    backgroundColor: '#F5F6FA',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 15,
     paddingBottom: 20,
     paddingTop: 20
@@ -182,12 +230,39 @@ const styles = StyleSheet.create({
     width: 250,
     padding: 20
   },
+  heroBoxWithHealthScore: {
+    width: 350,
+    height: 200,
+    backgroundColor: '#F5F6FA',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    // paddingBottom: 20,
+    paddingTop: 20,
+    paddingLeft: 20,
+
+  },
+  healthScoreActiveBox: {
+    flexDirection: 'row'
+  },
+  healthScoreDisplay: {
+    width: 100,
+    height: 100,
+    backgroundColor: '#AF8EFF',
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  healthScore: {
+    fontSize: 30,
+    color: 'white'
+  },
   MakeEntry: {
     width: 250,
     height: 40,
     backgroundColor: "#AF8EFF",
-    justifyContent: 'center', // Center child view vertically
-    alignItems: 'center', // Center child view horizontally
+    justifyContent: 'center', 
+    alignItems: 'center', 
     borderRadius: 5
   },
   MakeEntryText: {
@@ -195,19 +270,19 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   Categories: {
-    flexDirection: 'row', // To place the child views next to each other
+    flexDirection: 'row', 
     width: 350,
     paddingTop: 25
   },
   Doctors: {
-    flex: 1, // This allows the child views to take equal width
+    flex: 1, 
     height: 200,
     backgroundColor: '#F5F6FA',
-    marginRight: 10, // To add spacing between the child views
+    marginRight: 10, 
     borderRadius: 15
   },
   Exercises: {
-    flex: 1, // This allows the child views to take equal width
+    flex: 1, 
     height: 200,
     backgroundColor: '#F5F6FA',
     borderRadius: 15
@@ -257,8 +332,21 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 20,
     backgroundColor: "#AF8EFF",
-    justifyContent: 'center', // Center child view vertically
-    alignItems: 'center', // Center child view horizontally
+    justifyContent: 'center', 
+    alignItems: 'center', 
+  },
+  recommend: {
+    width: 200,
+    height: 30,
+    borderRadius: 10,
+    marginTop: 20,
+    backgroundColor: "#AF8EFF",
+    justifyContent: 'center',
+    alignItems: 'center', 
+    color: 'white'
+  },
+  recommendText: {
+    color: 'white'
   }
 
 

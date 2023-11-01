@@ -6,25 +6,22 @@ const EntryDetails = ({ route, navigation }) => {
     const { Entry } = route.params;
     const emotionsArray = Entry.JournalEntry.emotions;
 
-    emotionsArray.forEach(emotionObject => {
-        console.log(emotionObject);
-    });
-
-
     function calculateAverageMentalHealthScore(emotionsArray) {
         if (emotionsArray.length === 0) {
             console.log("nothing to calculate")
-            return 0; 
+            return 0;
         }
 
         const totalScore = emotionsArray.reduce((accumulator, emotionObject) => {
             return accumulator + emotionObject.score;
         }, 0);
+        console.log(totalScore)
 
         return totalScore / emotionsArray.length;
     }
 
     const averageScore = calculateAverageMentalHealthScore(emotionsArray);
+    const roundedHealthScore = parseFloat(averageScore).toFixed(2);
     console.log('Average Mental Health Score:', averageScore);
 
 
@@ -51,8 +48,7 @@ const EntryDetails = ({ route, navigation }) => {
             <ScrollView>
 
                 <Text style={styles.overview}>Entry overview</Text>
-                <Text style={styles.averageScore}>Your Average score for this entry is: </Text>
-                <Text style={styles.averageScore}>{averageScore}</Text>
+                
 
                 <View style={styles.GraphOverview}>
 
@@ -62,10 +58,12 @@ const EntryDetails = ({ route, navigation }) => {
                         gridMin={0}
                         yAccessor={({ item }) => item.value}
                     />
-                    
+
                 </View>
                 <Text style={styles.EntryTitle}>{Entry.JournalEntry.title}</Text>
                 <Text style={styles.Entry}>{Entry.JournalEntry.text}</Text>
+                <Text style={styles.averageScore}>Your Average score for this entry is: {roundedHealthScore} </Text>
+                {/* <Text style={styles.averageScore}>{roundedHealthScore}</Text> */}
                 <TouchableOpacity style={styles.Analyse} >
                     <Text style={styles.AnalyseText}>Delete Entry</Text>
                 </TouchableOpacity>

@@ -17,19 +17,12 @@ const Login = () => {
             Alert.alert("Whoops", "Please provide your email and password");
         } else {
             try {
-                // Attempt to sign in the user
+              
                 await signInUser(email, password);
-                //navigate if loggin was successfull
+                
                 navigation.navigate('tabNavigator');
-                // navigation.dispatch(
-                //     CommonActions.reset({
-                //         index: 0,
-                //         routes: [
-                //             { name: 'tabNavigator' },
-                //         ],
-                //     })
-                // );
-
+               
+                
 
             } catch (error) {
 

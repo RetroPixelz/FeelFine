@@ -1,56 +1,61 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 
 const Doctors = ({ navigation }) => {
-  const Doctors = [
-    { name: 'Dr. Jones', Proffesion: 'Psycholigist', contact: 'Jones@gmail.com', Location: 'Menlyn Main' },
-    { name: 'Dr. Jones', Proffesion: 'Psycholigist', contact: 'Jones@gmail.com', Location: 'Menlyn Main' },
-    { name: 'Dr. Jones', Proffesion: 'Psycholigist', contact: 'Jones@gmail.com', Location: 'Menlyn Main' },
-    { name: 'Dr. Jones', Proffesion: 'Psycholigist', contact: 'Jones@gmail.com', Location: 'Menlyn Main' },
-  ]
+  const allDoctors = [
+    { name: 'Dr. Jones', Proffesion: 'Psychologist', contact: 'Jones@gmail.com', Location: 'Menlyn Main' },
+    { name: 'Dr. Smith', Proffesion: 'Psychiatrist', contact: 'Smith@gmail.com', Location: 'Downtown Clinic' },
+
+  ];
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredDoctors, setFilteredDoctors] = useState(allDoctors);
+
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+    const filtered = allDoctors.filter((doctor) =>
+      doctor.name.toLowerCase().includes(text.toLowerCase()) ||
+      doctor.Proffesion.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredDoctors(filtered);
+  };
 
   return (
     <View style={styles.container}>
-
       <Text style={styles.heroText}>Let's find a doctor</Text>
 
-      <View style={styles.searchBar}>
-        <Text style={styles.searchBarText}>
-          Search for a doctor
-        </Text>
-      </View>
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search for a doctor"
+        value={searchQuery}
+        onChangeText={handleSearch}
+      />
 
       <ScrollView style={styles.DoctorCardSection}>
-
-        {Doctors.map((Doctor, index) => (
+        {filteredDoctors.map((doctor, index) => (
           <View style={styles.DoctorCard} key={index}>
-
             <View style={styles.DoctorDetails}>
               <View style={styles.DoctorImage}>
-
+                {/* images */}
               </View>
               <View style={styles.DetailSection}>
-                <Text style={styles.DoctorName}>{Doctor.name}</Text>
-                <Text style={styles.Proffesion}>{Doctor.Proffesion}</Text>
-                <Text style={styles.Location}>{Doctor.Location}</Text>
+                <Text style={styles.DoctorName}>{doctor.name}</Text>
+                <Text style={styles.Proffesion}>{doctor.Proffesion}</Text>
+                <Text style={styles.Location}>{doctor.Location}</Text>
               </View>
             </View>
-
             <View style={styles.BottomSection}>
-              <Text style={styles.contact}>{Doctor.contact}</Text>
-              <View style={styles.GetInTouch}>
+              <Text style={styles.contact}>{doctor.contact}</Text>
+              <TouchableOpacity style={styles.GetInTouch}>
                 <Text style={styles.GetInTouchText}>Get In Touch</Text>
-              </View>
+              </TouchableOpacity>
             </View>
-
           </View>
         ))}
-
       </ScrollView>
-
     </View>
-  )
-}
+  );
+};
 
 export default Doctors
 
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    alignItems: 'center', 
+    alignItems: 'center',
     padding: 25
   },
   heroText: {
