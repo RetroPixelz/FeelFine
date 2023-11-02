@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
@@ -9,16 +9,22 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [loading, setLoading] = useState(false);
+
     const navigation = useNavigation();
 
     const logOn = async () => {
+
+        setLoading(true);
 
         if (!email || !password) {
             Alert.alert("Whoops", "Please provide your email and password");
         } else {
             try {
               
-                await signInUser(email, password);
+                await signInUser(email, password).then(() => {
+                    setLoading(false)
+                })
                 
                 navigation.navigate('tabNavigator');
                
@@ -34,6 +40,10 @@ const Login = () => {
 
     return (
         <View style={styles.container}>
+
+            {!loading ?
+            (
+                <>
             <Image source={require('../assets/Logo.png')} style={[styles.image, { resizeMode: 'contain' }]} />
 
             <Text style={styles.inputLabel} >Email</Text>
@@ -47,6 +57,16 @@ const Login = () => {
                 <Text>Login</Text>
             </TouchableOpacity>
             <Text onPress={() => navigation.navigate('Register')}>Create an account</Text>
+                </>
+            )
+            :
+
+            <View style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                    <ActivityIndicator/>
+                </View>
+
+
+}
             {/* <Text onPress={loggingin}>Login</Text> */}
         </View>
     )
