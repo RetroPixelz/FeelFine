@@ -70,7 +70,10 @@
 <!-- header image of project -->
 
 <!-- ![image1](assets/Mockup3.png) -->
-<img src="assets/Mockup3.png" alt="Image 3" width="500" height="500">
+<p align="center">
+<img src="assets/Mockup3.png" alt="Image 3" width="550" height="500">
+</p>
+
 
 ### Project Description
 
