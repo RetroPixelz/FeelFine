@@ -38,15 +38,15 @@ const JournalScreen = ({ navigation }) => {
     
           // Define your color mapping here based on the highest-scoring emotion
           if (highestEmotion.emotion === 'anger') {
-            return 'red';
+            return '#9F2121';
           } else if (highestEmotion.emotion === 'disgust') {
-            return 'blue';
+            return '#E39147';
           } else if (highestEmotion.emotion === 'fear') {
-            return 'yellow';
+            return '#9B5FC0';
           } else if (highestEmotion.emotion === 'joy') {
-            return 'green';
+            return '#66D26B';
           } else if (highestEmotion.emotion === 'sadness') {
-            return 'orange';
+            return '#61AED9';
           }
           else {
             return '#8B80F8'; //  default color 
@@ -63,6 +63,9 @@ const JournalScreen = ({ navigation }) => {
     return (
         <View style={styles.testing}>
             <View style={styles.ToEntry}>
+            <TouchableOpacity onPress={getEntries} style={styles.button}>
+        <Text style={styles.refresh}>Refresh</Text>
+      </TouchableOpacity>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Journal')}>
                     <Text style={styles.btnText}>+</Text>
                 </TouchableOpacity>
@@ -88,11 +91,11 @@ const JournalScreen = ({ navigation }) => {
 
 
             </ScrollView>
-            <View style={styles.ToEntry}>
+            {/* <View style={styles.ToEntry}>
                 <TouchableOpacity style={styles.btn} onPress={getEntries}>
                     <Text>+</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
         </View>
     )
 }
@@ -104,6 +107,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         backgroundColor: "white",
+        justifyContent: "space-between",
+        paddingTop: 20
     },
     ToEntry: {
         width: 350,
@@ -153,5 +158,19 @@ const styles = StyleSheet.create({
         width: 200,
         marginLeft: 10
     },
+    button: {
+        width: 250,
+        height: 40,
+        marginRight: 60,
+        backgroundColor: "#AF8EFF",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 15
+      },
+      refresh: {
+        fontSize: 25,
+        fontWeight: "bold",
+        color: "white"
+      }
 
 })

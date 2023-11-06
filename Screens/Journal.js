@@ -54,10 +54,13 @@ const Journal = ({navigation}) => {
 
   return (
     <View style={styles.container}>
- <Button
+ {/* <Button
         title="Go back to JournalScreen"
         onPress={() => navigation.navigate('JournalScreen')}
-      />
+      /> */}
+      <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('JournalScreen')}>
+                    <Text style={styles.btnText}> Back </Text>
+      </TouchableOpacity>
       <Text style={styles.HowWasDay}>How was your day</Text>
 
       <View style={styles.JournalSection}>
@@ -154,5 +157,17 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 25,
     fontWeight: "bold"
-  }
+  },
+  btn: {
+    height: 40,
+    width: 60,
+    backgroundColor: "#8B80F8",
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+},
+btnText: {
+    color: 'white',
+    fontSize: 20
+},
 })

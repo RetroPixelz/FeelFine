@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Alert, us
 import React, { useEffect, useState, useMemo } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getCurrentUser, signOutUser } from '../Services/firebaseAuth'
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 import { GetUserEntries } from '../Services/firebasedb';
 import EmotionChart from './EmotionChart';
@@ -68,6 +68,12 @@ const Landing = () => {
   useEffect(() => {
     getEntries(); 
   }, []); 
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     // Run this function when the screen is focused
+  //     getEntries();
+  //   }, [])
+  // );
   
 
   useEffect(() => {
@@ -237,10 +243,8 @@ const Landing = () => {
     return true;
   };
   
-  // console.log(emotionAverages)
-  
 
-// Assuming your data is stored in a variable named "data" as an array of objects
+  
 AllEntries.forEach(entry => {
   // Check if the entry has a timestamp
   if (entry.timestamp) {
@@ -253,7 +257,7 @@ AllEntries.forEach(entry => {
     // To create a JavaScript Date object
     const javascriptDate = new Date(seconds * 1000 + nanoseconds / 1000000);
 
-    // Now you have the JavaScript Date object for this entry
+  
     console.log(javascriptDate);
   } else {
     // Handle the case where the timestamp is missing or undefined
@@ -274,23 +278,14 @@ useEffect(() => {
       sadness: (entry.JournalEntry.emotions.find(emotion => emotion.emotion === 'sadness')?.score || 0),
     }));
 
-  // console.log('transformedData:', transformedData);
+ 
 
   setDataForChart(transformedData);
-  // console.log('data from chart' ,dataForChart)
+ 
 }, [AllEntries]);
 
-const validDataForChart = dataForChart.filter((item) => {
-  const validEmotions = ['anger', 'disgust', 'fear', 'joy', 'sadness'];
-  return (
-    !isNaN(item.date) &&
-    validEmotions.every((emotion) => !isNaN(item[emotion]))
-  );
-});
 
-// console.log('validDataForChart:', validDataForChart);
 
-const validEmotions = ['anger', 'disgust', 'fear', 'joy', 'sadness'];
 
   
 
@@ -299,11 +294,11 @@ const validEmotions = ['anger', 'disgust', 'fear', 'joy', 'sadness'];
       {AllEntries.length === 0 ? (
         <View style={styles.heroBox}>
           <Text style={styles.heroText}>Get Journaling</Text>
-          <Text style={styles.heroPara}>
+          <Text style={styles.heroPara1}>
             Before we can give you a summary of your mental health score for the last month, you need to make an entry first
           </Text>
-          <TouchableOpacity style={styles.MakeEntry}>
-            <Text style={styles.MakeEntryText}>Make an entry</Text>
+          <TouchableOpacity style={styles.MakeEntry} onPress={() => navigation.navigate('JournalScreen')}>
+            <Text style={styles.MakeEntryText} >Make an entry</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -328,60 +323,18 @@ const validEmotions = ['anger', 'disgust', 'fear', 'joy', 'sadness'];
 
       <View style={styles.YourEntries}>
         <Text style={styles.entriesText}> Emotion Overview </Text>
-        {/* <EmotionChart data={dummyData} /> */}
+     
 
        
         <EmotionChart
-  todayAverages={todaysAverage} // Pass today's averages data
-  yesterdayAverages={yesturdaysAverage} // Pass yesterday's averages data
-  thisWeekAverages={thisWeekAverage} // Pass this week's averages data
+  todayAverages={todaysAverage} 
+  yesterdayAverages={yesturdaysAverage} 
+  thisWeekAverages={thisWeekAverage} 
+
 />
-        {/* <Text>{dataForChart.anger}</Text> */}
+       
         <View>
-  {/* <Text>Emotion Line Chart</Text>
-  <LineChart
-    data={{
-      labels: ["anger", "Disgust", "joy", "sadness", "Fear"],
-      datasets: [
-        {
-          data: [
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100
-          ]
-        }
-      ]
-    }}
-    width={350} // from react-native
-    height={220}
-    yAxisLabel="$"
-    yAxisSuffix="k"
-    yAxisInterval={1} // optional, defaults to 1
-    chartConfig={{
-      backgroundColor: "#e26a00",
-      backgroundGradientFrom: "#fb8c00",
-      backgroundGradientTo: "#ffa726",
-      decimalPlaces: 2, // optional, defaults to 2dp
-      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-      style: {
-        borderRadius: 16
-      },
-      propsForDots: {
-        r: "6",
-        strokeWidth: "2",
-        stroke: "#ffa726"
-      }
-    }}
-    bezier
-    style={{
-      marginVertical: 8,
-      borderRadius: 16
-    }}
-  /> */}
+ 
 
 </View>
 
@@ -389,6 +342,13 @@ const validEmotions = ['anger', 'disgust', 'fear', 'joy', 'sadness'];
         
 
       </View>
+
+      <TouchableOpacity onPress={getEntries} style={styles.button}>
+        <Text style={styles.refresh}>Refresh</Text>
+      </TouchableOpacity>
+
+
+      <View style={styles.buttons}>
       <TouchableOpacity onPress={clearOnboarding} style={styles.clear}>
         <Text>clear Onboarding</Text>
       </TouchableOpacity>
@@ -396,14 +356,16 @@ const validEmotions = ['anger', 'disgust', 'fear', 'joy', 'sadness'];
       <TouchableOpacity onPress={Signout} style={styles.clear}>
         <Text>Sign out</Text>
       </TouchableOpacity>
-
+      
+      </View>
+      
+      {/* <View style={styles.buttons}>
       <TouchableOpacity onPress={getEntries} style={styles.clear}>
         <Text>test</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={calculateEmotionAverages} style={styles.clear}>
-        <Text>average</Text>
-      </TouchableOpacity>
+      </View> */}
+      
 
     </ScrollView>
   )
@@ -430,8 +392,14 @@ const styles = StyleSheet.create({
   heroText: {
     fontSize: 30
   },
-  heroPara: {
+  heroPara1: {
     fontSize: 10,
+    textAlign: "center",
+    width: 250,
+    padding: 20
+  },
+  heroPara: {
+    fontSize: 15,
     textAlign: "center",
     width: 250,
     padding: 20
@@ -496,11 +464,12 @@ const styles = StyleSheet.create({
   },
   YourEntries: {
     width: 350,
+    height: 350,
     backgroundColor: "#F5F6FA",
     marginTop: 25,
     alignItems: "center",
     paddingTop: 15,
-    marginBottom: 50,
+    marginBottom: 10,
     borderRadius: 15
   },
   entriesText: {
@@ -533,7 +502,7 @@ const styles = StyleSheet.create({
     fontSize: 10
   },
   clear: {
-    width: 200,
+    width: 140,
     height: 30,
     borderRadius: 10,
     margin: 20,
@@ -559,6 +528,23 @@ const styles = StyleSheet.create({
     width: 320,
     // backgroundColor: "red"
 },
+buttons: {
+  flexDirection: "row"
+},
+button: {
+  width: 350,
+  height: 50,
+  backgroundColor: "#AF8EFF",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: 15,
+
+},
+refresh: {
+  fontSize: 25,
+  fontWeight: "bold",
+  color: "white"
+}
 
 
 

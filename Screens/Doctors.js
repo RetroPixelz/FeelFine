@@ -3,8 +3,11 @@ import React, { useState } from 'react'
 
 const Doctors = ({ navigation }) => {
   const allDoctors = [
-    { name: 'Dr. Jones', Proffesion: 'Psychologist', contact: 'Jones@gmail.com', Location: 'Menlyn Main' },
-    { name: 'Dr. Smith', Proffesion: 'Psychiatrist', contact: 'Smith@gmail.com', Location: 'Downtown Clinic' },
+    { name: 'Dr. C de Bloq', Proffesion: 'General Practitioner', Location: 'Menlyn Main' },
+    { name: 'Dr. M Steele', Proffesion: 'Clinical Psychologist', Location: 'Menlyn Main' },
+    { name: 'Dr. M Viljoen', Proffesion: 'Clinical Psychologist', Location: 'Menlyn Main' },
+    { name: 'Ashley Chetty', Proffesion: 'Clinical Psychologist', Location: 'Menlyn Main' },
+    { name: 'Laura Pakendorf', Proffesion: 'Occupational Therapist',  Location: 'Midstream' },
 
   ];
 

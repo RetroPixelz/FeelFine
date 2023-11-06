@@ -41,13 +41,23 @@ const EntryDetails = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.back}>
+            
+            {/* <View style={styles.back}>
                 <Text onPress={back}>goback</Text>
+            </View> */}
+            <View style={styles.topRow}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('JournalScreen')}>
+                    <Text style={styles.btnText}> Back </Text>
+                </TouchableOpacity>
+                <View style={styles.scoreHere}>
+                    <Text style={styles.score}>{roundedHealthScore}</Text>
+                </View>
             </View>
+            
 
             <ScrollView>
 
-                <Text style={styles.overview}>Entry overview</Text>
+                {/* <Text style={styles.overview}>Entry overview</Text> */}
                 
 
                 <View style={styles.GraphOverview}>
@@ -58,6 +68,14 @@ const EntryDetails = ({ route, navigation }) => {
                         gridMin={0}
                         yAccessor={({ item }) => item.value}
                     />
+                    <View style={styles.labels}>
+                        <Text>Anger</Text>
+                        <Text>Disgust</Text>
+                        <Text>Fear</Text>
+                        <Text>Joy</Text>
+                        <Text>Sadness</Text>
+
+                    </View>
 
                 </View>
                 <Text style={styles.EntryTitle}>{Entry.JournalEntry.title}</Text>
@@ -98,7 +116,7 @@ const styles = StyleSheet.create({
     },
     EntryTitle: {
         fontSize: 20,
-        marginTop: 10
+        marginTop: 40
     },
     Entry: {
         marginTop: 15,
@@ -122,4 +140,41 @@ const styles = StyleSheet.create({
         height: 200,
         width: 320,
     },
+    labels: {
+        width: 305,
+        height: 20,
+        marginLeft: 10,
+        // backgroundColor: "red",
+        justifyContent: "space-between",
+        // alignItems: "center",
+        flexDirection: "row"
+    },
+    btn: {
+        height: 40,
+        width: 60,
+        backgroundColor: "#8B80F8",
+        borderRadius: 20,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    btnText: {
+        color: 'white',
+        fontSize: 20
+    },
+    topRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginBottom: 30
+    },
+    scoreHere: {
+        width: 50,
+        height: 50,
+        backgroundColor: "#8B80F8",
+        borderRadius: 30,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    score: {
+        color: "white"
+    }
 })

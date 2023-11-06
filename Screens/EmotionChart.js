@@ -22,7 +22,7 @@ const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages })
     switch (selectedTimePeriod) {
       case 'today':
         return todayAverages;
-      case 'yesterday':
+      case 'Yesterday':
         return yesterdayAverages;
       case 'thisWeek':
         return thisWeekAverages;
@@ -34,46 +34,40 @@ const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages })
   const currentAverages = getAveragesForTimePeriod();
   console.log(currentAverages)
 
-//   const data = {
-    
-//     labels: ["anger", "disgust", "fear","joy","sadness"], // optional
-//     data: [currentAverages.anger, currentAverages.disgust, currentAverages.fear,
-//         currentAverages.joy,currentAverages.sadness]
-//   };
 
 const data = [
     {
-      name: "anger",
+      name: "Anger",
       population: currentAverages?.anger,
-      color: "rgba(131, 167, 234, 1)",
+      color: "#9F2121",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
     },
     {
-      name: "Toronto",
+      name: "Disgust",
       population: currentAverages?.disgust,
-      color: "#F00",
+      color: "#E39147",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
     },
     {
-      name: "Beijing",
+      name: "Fear",
       population: currentAverages?.fear,
-      color: "red",
+      color: "#9B5FC0",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
     },
     {
-      name: "New York",
+      name: "Joy",
       population: currentAverages?.joy,
-      color: "green",
+      color: "#66D26B",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
     },
     {
-      name: "Moscow",
+      name: "Sadness",
       population: currentAverages?.sadness,
-      color: "rgb(0, 0, 255)",
+      color: "#61AED9",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
     }
@@ -104,7 +98,7 @@ const data = [
         </TouchableOpacity>
         <TouchableOpacity style={styles.filter} onPress={() => handleTimePeriodChange('yesturday')}>
             <Text>
-                Yesturday
+                Yesterday
             </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.filter} onPress={() => handleTimePeriodChange('thisWeek')}>
@@ -120,13 +114,13 @@ const data = [
 
 
       {currentAverages && currentAverages ? (
-        <View>
-          <Text>Averages for {selectedTimePeriod}</Text>
+        <View style={styles.chart}>
+          {/* <Text>Averages for {selectedTimePeriod}</Text>
           <Text>Anger: {currentAverages.anger}</Text>
           <Text>disgust: {currentAverages.disgust}</Text>
           <Text>{currentAverages.fear}</Text>
           <Text>{currentAverages.joy}</Text>
-          <Text>{currentAverages.sadness}</Text>
+          <Text>{currentAverages.sadness}</Text> */}
 
           {/* <ProgressChart
   data={data}
@@ -154,7 +148,7 @@ const data = [
       ) : (
         
             <View style={styles.loading}>
-                <Text>Loading data...</Text>
+                <Text>Loading...</Text>
             </View>
         
       )}
@@ -192,7 +186,7 @@ const styles = StyleSheet.create({
     filter: {
         width: 100,
         height: 40,
-        backgroundColor: "red",
+        backgroundColor: "#AF8EFF",
         borderRadius: 15,
         alignItems: "center",
         justifyContent: "center",
@@ -200,11 +194,15 @@ const styles = StyleSheet.create({
     loading: {
         width: 100,
         height: 100,
-        backgroundColor: "red",
+        backgroundColor: "#AF8EFF",
         marginLeft: 110,
-        marginTop: 25
+        marginTop: 25,
+        borderRadius: 50,
+        alignItems: "center",
+        justifyContent: "center"
     },
-    container: {
+    chart: {
+        marginTop: 50
         // alignContent: "center"
         // justifyContent: "center"
     }
