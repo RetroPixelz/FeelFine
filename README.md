@@ -221,10 +221,10 @@ I made a React Native application, after creating the frontend layout I gained a
 ![image4](assets/Mockup3.png)
 ![image5](assets/Mockup4.png) -->
 
-<img src="assets/Mockup1.png" alt="Image 3" width="325" height="300">
-<img src="assets/Mockup2.png" alt="Image 3" width="325" height="300">
-<img src="assets/Mockup3.png" alt="Image 3" width="325" height="300">
-<img src="assets/Mockup4.png" alt="Image 3" width="325" height="300">
+<img src="assets/Mockup1.png" alt="Image 3" width="300" height="200">
+<img src="assets/Mockup2.png" alt="Image 3" width="300" height="200">
+<img src="assets/Mockup3.png" alt="Image 3" width="300" height="200">
+<img src="assets/Mockup4.png" alt="Image 3" width="300" height="200">
 
 
 
