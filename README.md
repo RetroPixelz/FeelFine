@@ -69,7 +69,7 @@
 
 <!-- header image of project -->
 
-![image1](src/assets/Mock1.png)
+![image1](assets/Mockup3.png)
 
 ### Project Description
 
@@ -131,17 +131,17 @@ Here are a couple of ways to clone this repo:
 
 ### Login & Signup
 
-![image5](src/assets/Mock2.png)
+![image5](assets/Mockup1.png)
 Login and Registration functionality with Firebase for the user to create or login with an account.
 
 ### landing screen
 
-![image6](src/assets/Mock5.png)
+![image6](assets/Mockup4.png)
 The landing or dashboard screen is the first screen the user sees, here the user can see an overview of all their emotions throughout all of their journal entrys aswell as an average mental health score based on the average scores gathered from each entry.
 
 ### Journal
 
-![image7](src/assets/Mock1.png)
+![image7](assets/Mockup2.png)
 Here the user can see a list of all their journal entrys, that are colour coordinated based on the score of the highest ranking emotion, users can also create new journal entrys where the AI tool will perform the emotion recognition and save it with the entry in the users DB collection.
 
 ## Concept Process
@@ -206,11 +206,11 @@ I made a React Native application, after creating the frontend layout I gained a
 
 <!-- TODO Change this -->
 
-![image2](src/assets/Mock1.png)
-![image3](src/assets/Mock2.png)
-![image4](src/assets/Mock3.png)
-![image5](src/assets/Mock4.png)
-![image11](src/assets/Mock5.png)
+![image2](assets/Mockup1.png)
+![image3](assets/Mockup2.png)
+![image4](assets/Mockup3.png)
+![image5](assets/Mockup4.png)
+
 
 <br>
 
