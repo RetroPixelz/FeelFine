@@ -6,7 +6,7 @@ import { getCurrentUser, signOutUser } from '../Services/firebaseAuth';
 import analyzeEmotion from '../Services/analyzeEmotion';
 
 
-const Journal = ({navigation}) => {
+const Journal = ({ navigation }) => {
   //consts
   const user = getCurrentUser()
   const userId = user.uid;
@@ -54,12 +54,8 @@ const Journal = ({navigation}) => {
 
   return (
     <View style={styles.container}>
- {/* <Button
-        title="Go back to JournalScreen"
-        onPress={() => navigation.navigate('JournalScreen')}
-      /> */}
       <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('JournalScreen')}>
-                    <Text style={styles.btnText}> Back </Text>
+        <Text style={styles.btnText}> Back </Text>
       </TouchableOpacity>
       <Text style={styles.HowWasDay}>How was your day</Text>
 
@@ -165,9 +161,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-},
-btnText: {
+  },
+  btnText: {
     color: 'white',
     fontSize: 20
-},
+  },
 })

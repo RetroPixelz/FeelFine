@@ -21,14 +21,12 @@ const Login = () => {
             Alert.alert("Whoops", "Please provide your email and password");
         } else {
             try {
-              
+
                 await signInUser(email, password).then(() => {
                     setLoading(false)
                 })
-                
+
                 navigation.navigate('tabNavigator');
-               
-                
 
             } catch (error) {
 
@@ -42,33 +40,29 @@ const Login = () => {
         <View style={styles.container}>
 
             {!loading ?
-            (
-                <>
-            <Image source={require('../assets/Logo.png')} style={[styles.image, { resizeMode: 'contain' }]} />
+                (
+                    <>
+                        <Image source={require('../assets/Logo.png')} style={[styles.image, { resizeMode: 'contain' }]} />
 
-            <Text style={styles.inputLabel} >Email</Text>
-            <TextInput style={styles.input} onChangeText={(newValue) => setEmail(newValue)} />
+                        <Text style={styles.inputLabel} >Email</Text>
+                        <TextInput style={styles.input} onChangeText={(newValue) => setEmail(newValue)} />
 
-            <Text style={styles.inputLabel}>password</Text>
-            <TextInput style={styles.input} onChangeText={(newValue) => setPassword(newValue)} />
+                        <Text style={styles.inputLabel}>password</Text>
+                        <TextInput style={styles.input} onChangeText={(newValue) => setPassword(newValue)} />
 
+                        <TouchableOpacity onPress={logOn} style={styles.button}>
+                            <Text>Login</Text>
+                        </TouchableOpacity>
+                        <Text onPress={() => navigation.navigate('Register')}>Create an account</Text>
+                    </>
+                )
+                :
 
-            <TouchableOpacity onPress={logOn} style={styles.button}>
-                <Text>Login</Text>
-            </TouchableOpacity>
-            <Text onPress={() => navigation.navigate('Register')}>Create an account</Text>
-                </>
-            )
-            :
-
-            <View style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                    <ActivityIndicator/>
+                <View style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <ActivityIndicator />
                     <Text style={styles.loading}>Loading...</Text>
                 </View>
-
-
-}
-            {/* <Text onPress={loggingin}>Login</Text> */}
+            }
         </View>
     )
 }

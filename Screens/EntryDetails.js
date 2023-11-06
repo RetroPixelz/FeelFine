@@ -41,10 +41,7 @@ const EntryDetails = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            
-            {/* <View style={styles.back}>
-                <Text onPress={back}>goback</Text>
-            </View> */}
+
             <View style={styles.topRow}>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('JournalScreen')}>
                     <Text style={styles.btnText}> Back </Text>
@@ -53,12 +50,9 @@ const EntryDetails = ({ route, navigation }) => {
                     <Text style={styles.score}>{roundedHealthScore}</Text>
                 </View>
             </View>
-            
+
 
             <ScrollView>
-
-                {/* <Text style={styles.overview}>Entry overview</Text> */}
-                
 
                 <View style={styles.GraphOverview}>
 
@@ -81,7 +75,6 @@ const EntryDetails = ({ route, navigation }) => {
                 <Text style={styles.EntryTitle}>{Entry.JournalEntry.title}</Text>
                 <Text style={styles.Entry}>{Entry.JournalEntry.text}</Text>
                 <Text style={styles.averageScore}>Your Average score for this entry is: {roundedHealthScore} </Text>
-                {/* <Text style={styles.averageScore}>{roundedHealthScore}</Text> */}
                 <TouchableOpacity style={styles.Analyse} >
                     <Text style={styles.AnalyseText}>Delete Entry</Text>
                 </TouchableOpacity>
@@ -144,9 +137,7 @@ const styles = StyleSheet.create({
         width: 305,
         height: 20,
         marginLeft: 10,
-        // backgroundColor: "red",
         justifyContent: "space-between",
-        // alignItems: "center",
         flexDirection: "row"
     },
     btn: {
