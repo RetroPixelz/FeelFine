@@ -51,7 +51,7 @@
   - [Implementation Process](#implementation-process)
     - [Highlights](#highlights)
     - [Challenges](#challenges)
-  - [Future Implementation](#Future Implementation)
+  - [Future Implementation](#Future-Implementation)
 - [Final Outcome](#final-outcome)
   - [Mockups](#mockups)
 - [License](#license)
