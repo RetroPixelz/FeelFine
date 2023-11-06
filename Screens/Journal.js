@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import { saveJournalEntry } from '../Services/firebasedb';
@@ -6,7 +6,7 @@ import { getCurrentUser, signOutUser } from '../Services/firebaseAuth';
 import analyzeEmotion from '../Services/analyzeEmotion';
 
 
-const Journal = () => {
+const Journal = ({navigation}) => {
   //consts
   const user = getCurrentUser()
   const userId = user.uid;
@@ -54,7 +54,10 @@ const Journal = () => {
 
   return (
     <View style={styles.container}>
-
+ <Button
+        title="Go back to JournalScreen"
+        onPress={() => navigation.navigate('JournalScreen')}
+      />
       <Text style={styles.HowWasDay}>How was your day</Text>
 
       <View style={styles.JournalSection}>
@@ -72,6 +75,7 @@ const Journal = () => {
           onChangeText={setText}
           value={text}
           multiline={true}
+          placeholder={text}
           numberOfLines={1}
         />
         <View style={styles.submitBox}>

@@ -63,6 +63,7 @@ const Login = () => {
 
             <View style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                     <ActivityIndicator/>
+                    <Text style={styles.loading}>Loading...</Text>
                 </View>
 
 
@@ -112,6 +113,9 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 20
 
+    },
+    loading: {
+        fontSize: 15
     }
 
 })

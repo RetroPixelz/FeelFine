@@ -36,7 +36,7 @@ const EntryDetails = ({ route, navigation }) => {
 
 
     const back = () => {
-        navigation.goBack()
+        navigation.navigate("JournalScreen")
     }
 
     return (

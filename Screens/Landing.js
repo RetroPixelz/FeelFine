@@ -51,52 +51,49 @@ const Landing = () => {
   }, [uid]);
 
   useEffect(() => {
-    
     if (AllEntries.length > 0) {
-      const averagesForSets = AllEntries.map(item => {
-        if (item && item.JournalEntry && Array.isArray(item.JournalEntry.emotions) && item.JournalEntry.emotions.length > 0) {
+      // Filter out entries without emotions
+      const entriesWithEmotions = AllEntries.filter(item => item.JournalEntry && Array.isArray(item.JournalEntry.emotions) && item.JournalEntry.emotions.length > 0);
+  
+      if (entriesWithEmotions.length > 0) {
+        const validScores = entriesWithEmotions.map(item => {
           const totalScore = item.JournalEntry.emotions.reduce((accumulator, emotionObject) => {
             return accumulator + emotionObject.score;
           }, 0);
-
+  
           return {
             id: item.id,
             averageScore: totalScore / item.JournalEntry.emotions.length,
           };
-        } else {
-          return {
-            id: item.id,
-            averageScore: 0,
-          };
-        }
-      });
-
-      const validScores = averagesForSets.filter(item => !isNaN(item.averageScore));
-      const scores = validScores.map(item => item.averageScore);
-
-      if (scores.length > 0) {
-        const minScore = Math.min(...scores);
-        const maxScore = Math.max(...scores);
-
-        function scaleToHealthScore(score) {
-          if (maxScore === minScore) {
-            return 0; // Prevent division by zero
+        });
+  
+        const scores = validScores.map(item => item.averageScore);
+  
+        if (scores.length > 0) {
+          const minScore = Math.min(...scores);
+          const maxScore = Math.max(...scores);
+  
+          function scaleToHealthScore(score) {
+            if (maxScore === minScore) {
+              return 0; // Prevent division by zero
+            }
+            return ((score - minScore) / (maxScore - minScore)) * 10;
           }
-          return ((score - minScore) / (maxScore - minScore)) * 10;
+  
+          const overallHealthScore = scores.reduce((accumulator, score) => accumulator + scaleToHealthScore(score), 0) / scores.length;
+  
+          const roundedHealthScore = parseFloat(overallHealthScore).toFixed(1);
+          setHealthScore(roundedHealthScore);
+          console.log(roundedHealthScore);
+        } else {
+          setHealthScore(0);
         }
-
-        const overallHealthScore = scores.reduce((accumulator, score) => accumulator + scaleToHealthScore(score), 0) / scores.length;
-
-        const roundedHealthScore = parseFloat(overallHealthScore).toFixed(1);
-        setHealthScore(roundedHealthScore);
-        console.log(HealthScore)
-
-
       } else {
         setHealthScore(0);
       }
     }
   }, [AllEntries]);
+  
 
   const GetSuggestions = (HealthScore) => {
     if (HealthScore <= 2) {
@@ -125,6 +122,52 @@ const Landing = () => {
     const recommendation = GetSuggestions(HealthScore);
     Alert.alert('Recommendation', recommendation);
   };
+
+  useEffect(() => {
+    if (Array.isArray(AllEntries) && AllEntries.length > 0) {
+      const emotionAverages = calculateAverageEmotionScores(AllEntries);
+      
+      console.log(emotionAverages);
+    }
+  }, [AllEntries]);
+  
+  const calculateAverageEmotionScores = (entries) => {
+    const emotionAverages = {};
+  
+    // Initialize emotion sums and counts
+    const emotionSums = {
+      anger: 0,
+      disgust: 0,
+      fear: 0,
+      joy: 0,
+      sadness: 0,
+      
+    };
+    const emotionCounts = { ...emotionSums };
+  
+    // make sure array not undefined
+    if (Array.isArray(entries)) {
+      // Calculate emotion sums and counts
+      entries.forEach((entry) => {
+        if (entry.JournalEntry.emotions && entry.JournalEntry.emotions.length > 0) {
+          entry.JournalEntry.emotions.forEach((emotion) => {
+            // Update emotion sums and counts
+            emotionSums[emotion.emotion] += emotion.score;
+            emotionCounts[emotion.emotion]++;
+          });
+        }
+      });
+    }
+  
+    // Calculate average emotion scores
+    for (const emotion in emotionSums) {
+      emotionAverages[emotion] = (emotionSums[emotion] / emotionCounts[emotion]).toFixed(2);
+    }
+  
+    return emotionAverages;
+  };
+  
+  
 
 
   return (
@@ -160,9 +203,9 @@ const Landing = () => {
       )}
 
       <View style={styles.YourEntries}>
-        <Text style={styles.entriesText}> Your Entries </Text>
+        <Text style={styles.entriesText}> Emotion Overview </Text>
 
-        {AllEntries.map((Entry, index) => (
+        {/* {AllEntries.map((Entry, index) => (
           <TouchableOpacity key={index}
             onPress={() => navigation.navigate("EntryDetails", { Entry })}
             activeOpacity={0.75}>
@@ -182,7 +225,7 @@ const Landing = () => {
               </View>
             </View>
           </TouchableOpacity>
-        ))}
+        ))} */}
 
       </View>
       <TouchableOpacity onPress={clearOnboarding} style={styles.clear}>
@@ -197,7 +240,9 @@ const Landing = () => {
         <Text>test</Text>
       </TouchableOpacity>
 
-
+      <TouchableOpacity onPress={calculateAverageEmotionScores} style={styles.clear}>
+        <Text>average</Text>
+      </TouchableOpacity>
 
     </ScrollView>
   )

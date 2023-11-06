@@ -15,14 +15,10 @@ import { useEffect, useState } from 'react';
 import Login from './Screens/Login';
 import Register from './Screens/Register';
 import EntryDetails from './Screens/EntryDetails';
+import JournalScreen from './Screens/JournalScreen';
 
 
 const Tab = createBottomTabNavigator();
-// const LoginStack = createStackNavigator();
-
-
-//make entries on home page color based on how the user feels
-//
 
 const Loading = () => {
   <View>
@@ -31,6 +27,14 @@ const Loading = () => {
 }
 const Stack = createStackNavigator();
 
+function JournalStackScreen() {
+  return (
+    <JournalStack.Navigator>
+      <JournalStack.Screen name="Journal" component={Journal} options={{ headerShown: false }} />
+      {/* Other screens within the Journal tab if needed */}
+    </JournalStack.Navigator>
+  );
+}
 
 function TabNavigator() {
   return (
@@ -73,12 +77,33 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Journal"
-        component={Journal}
+        name="JournalScreen"
+        component={JournalScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="book" color={color} size={size} />
           ),
+        }}
+      />
+       <Tab.Screen
+        name="Journal"
+        component={Journal} // Nested "Journal" tab
+        options={{
+          tabBarButton: () => null, // Hide the tab icon for the nested "Journal" tab
+        }}
+      />
+      <Tab.Screen
+        name="Login"
+        component={Login} // Nested "Journal" tab
+        options={{
+          tabBarButton: () => null, // Hide the tab icon for the nested "Journal" tab
+        }}
+      />
+      <Tab.Screen
+        name="EntryDetails"
+        component={EntryDetails} // Nested "Journal" tab
+        options={{
+          tabBarButton: () => null, // Hide the tab icon for the nested "Journal" tab
         }}
       />
       
@@ -122,6 +147,7 @@ export default function App({navigation, props}) {
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
           <Stack.Screen name="EntryDetails" component={EntryDetails} options={{ headerShown: false }}/>
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+          <Stack.Screen name="Journal" component={Journal} options={{ headerShown: false }}/>
           <Stack.Screen name="tabNavigator" component={TabNavigator} options={{ headerShown: false }}/>
 
           {/* <Stack.Screen name="LoginStack" component={Login} options={{ headerShown: false }} /> */}
