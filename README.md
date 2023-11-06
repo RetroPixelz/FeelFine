@@ -71,7 +71,7 @@
 
 <!-- ![image1](assets/Mockup3.png) -->
 <p align="center">
-<img src="assets/Mockup3.png" alt="Image 3" width="550" height="500">
+<img src="assets/Mockup3.png" alt="Image 3" width="600" height="500">
 </p>
 
 
@@ -135,17 +135,23 @@ Here are a couple of ways to clone this repo:
 
 ### Login & Signup
 
-![image5](assets/Mockup1.png)
+<p align="center">
+<img src="assets/Mockup1.png" alt="Image 3" width="600" height="500">
+</p>
 Login and Registration functionality with Firebase for the user to create or login with an account.
 
 ### landing screen
 
-![image6](assets/Mockup4.png)
+<p align="center">
+<img src="assets/Mockup4.png" alt="Image 3" width="600" height="500">
+</p>
 The landing or dashboard screen is the first screen the user sees, here the user can see an overview of all their emotions throughout all of their journal entrys aswell as an average mental health score based on the average scores gathered from each entry.
 
 ### Journal
 
-![image7](assets/Mockup2.png)
+<p align="center">
+<img src="assets/Mockup2.png" alt="Image 3" width="600" height="500">
+</p>
 Here the user can see a list of all their journal entrys, that are colour coordinated based on the score of the highest ranking emotion, users can also create new journal entrys where the AI tool will perform the emotion recognition and save it with the entry in the users DB collection.
 
 ## Concept Process
