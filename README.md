@@ -69,14 +69,15 @@
 
 <!-- header image of project -->
 
-![image1](assets/Mockup3.png)
+<!-- ![image1](assets/Mockup3.png) -->
+<img src="assets/Mockup3.png" alt="Image 3" width="200" height="200">
 
 ### Project Description
 
 Welcome to FeelFine! This is a React-native mobile application that makes use of IBM Watson Natural Languange Understanding model to do emotion recognition on journal entries.
 ### Built With
-[<img src="hhttps://www.svgrepo.com/svg/521303/react-16" width="5%" height="5%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://reactnative.dev/)
-[<img src="https://www.svgrepo.com/svg/373595/firebase" width="5%" height="5%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;](https://firebase.google.com/)
+React-Native, Firebase & IBM Wattson NLU
+
 
 
 <!-- GETTING STARTED -->
@@ -206,10 +207,16 @@ I made a React Native application, after creating the frontend layout I gained a
 
 <!-- TODO Change this -->
 
-![image2](assets/Mockup1.png)
+<!-- ![image2](assets/Mockup1.png)
 ![image3](assets/Mockup2.png)
 ![image4](assets/Mockup3.png)
-![image5](assets/Mockup4.png)
+![image5](assets/Mockup4.png) -->
+
+<img src="assets/Mockup1.png" alt="Image 3" width="125" height="125">
+<img src="assets/Mockup2.png" alt="Image 3" width="125" height="125">
+<img src="assets/Mockup3.png" alt="Image 3" width="125" height="125">
+<img src="assets/Mockup4.png" alt="Image 3" width="125" height="125">
+
 
 
 <br>
