@@ -158,13 +158,7 @@ Here the user can see a list of all their journal entrys, that are colour coordi
 
 We had an open brief, so i was allowed to create a mobile or web application, once i came across the idea to make a mental health application it was only fitting to create it as a mobile app for ease of use.
 
-<!-- ### Mood Board
 
-![image9](src/assets/MoodBoard.png)
-
-### Wireframes
-
-![image10](src/assets/Wireframes.png) -->
 
 
 ## Development Process
@@ -221,12 +215,14 @@ I made a React Native application, after creating the frontend layout I gained a
 ![image4](assets/Mockup3.png)
 ![image5](assets/Mockup4.png) -->
 
+
+
+<p align="center">
 <img src="assets/Mockup1.png" alt="Image 3" width="300" height="200">
 <img src="assets/Mockup2.png" alt="Image 3" width="300" height="200">
 <img src="assets/Mockup3.png" alt="Image 3" width="300" height="200">
 <img src="assets/Mockup4.png" alt="Image 3" width="300" height="200">
-
-
+</p>
 
 <br>
 
