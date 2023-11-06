@@ -1,0 +1,212 @@
+// EmotionAverages.js
+import React, { useState } from 'react';
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import {
+    LineChart,
+    BarChart,
+    PieChart,
+    ProgressChart,
+    ContributionGraph,
+    StackedBarChart
+  } from "react-native-chart-kit";
+
+const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages }) => {
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState('today');
+  
+    console.log(todayAverages)
+  const handleTimePeriodChange = (newTimePeriod) => {
+    setSelectedTimePeriod(newTimePeriod);
+  };
+
+  const getAveragesForTimePeriod = () => {
+    switch (selectedTimePeriod) {
+      case 'today':
+        return todayAverages;
+      case 'yesterday':
+        return yesterdayAverages;
+      case 'thisWeek':
+        return thisWeekAverages;
+      default:
+        return todayAverages; // Default to today's averages
+    }
+  };
+
+  const currentAverages = getAveragesForTimePeriod();
+  console.log(currentAverages)
+
+//   const data = {
+    
+//     labels: ["anger", "disgust", "fear","joy","sadness"], // optional
+//     data: [currentAverages.anger, currentAverages.disgust, currentAverages.fear,
+//         currentAverages.joy,currentAverages.sadness]
+//   };
+
+const data = [
+    {
+      name: "anger",
+      population: currentAverages?.anger,
+      color: "rgba(131, 167, 234, 1)",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "Toronto",
+      population: currentAverages?.disgust,
+      color: "#F00",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "Beijing",
+      population: currentAverages?.fear,
+      color: "red",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "New York",
+      population: currentAverages?.joy,
+      color: "green",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "Moscow",
+      population: currentAverages?.sadness,
+      color: "rgb(0, 0, 255)",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    }
+  ];
+
+
+  const chartConfig = {
+    backgroundGradientFrom: "#F5F6FA",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#F5F6FA",
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(0, 0, 255, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 1,
+    useShadowColorFromDataset: false // optional
+  };
+
+  return (
+    <>
+    {/* <Text>{currentAverages.anger}</Text> */}
+    <View style={styles.container}>
+        {/* <Text onPress={handleTimePeriodChange}>hehe</Text> */}
+        <View style={styles.filters}>
+        <TouchableOpacity style={styles.filter} onPress={() => handleTimePeriodChange('today')}>
+            <Text>
+                Today
+            </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.filter} onPress={() => handleTimePeriodChange('yesturday')}>
+            <Text>
+                Yesturday
+            </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.filter} onPress={() => handleTimePeriodChange('thisWeek')}>
+        <Text>
+                This week
+            </Text>
+        </TouchableOpacity>
+        </View>
+        
+    {/* <Text onPress={() => handleTimePeriodChange('today')}>Today</Text>
+      <Text onPress={() => handleTimePeriodChange('yesturday')}>Yesterday</Text>
+      <Text onPress={() => handleTimePeriodChange('thisWeek')}>This Week</Text> */}
+
+
+      {currentAverages && currentAverages ? (
+        <View>
+          <Text>Averages for {selectedTimePeriod}</Text>
+          <Text>Anger: {currentAverages.anger}</Text>
+          <Text>disgust: {currentAverages.disgust}</Text>
+          <Text>{currentAverages.fear}</Text>
+          <Text>{currentAverages.joy}</Text>
+          <Text>{currentAverages.sadness}</Text>
+
+          {/* <ProgressChart
+  data={data}
+  width={350}
+  height={220}
+  strokeWidth={12}
+  radius={32}
+  chartConfig={chartConfig}
+  hideLegend={false}
+/> */}
+<PieChart
+  data={data}
+  width={350}
+  height={200}
+  chartConfig={chartConfig}
+  accessor={"population"}
+  backgroundColor={"transparent"}
+  paddingLeft={"15"}
+//   center={[10, 50]}
+//   absolute
+/>
+
+          {/* Display other emotion averages based on the selected time period */}
+        </View>
+      ) : (
+        
+            <View style={styles.loading}>
+                <Text>Loading data...</Text>
+            </View>
+        
+      )}
+    </View>
+    </>
+    // <div>
+    //   <h2>Emotion Averages</h2>
+    //   <label>
+    //     Select Time Period:
+    //     <select value={selectedTimePeriod} onChange={(e) => handleTimePeriodChange(e.target.value)}>
+    //       <option value="today">Today</option>
+    //       <option value="yesterday">Yesterday</option>
+    //       <option value="thisWeek">This Week</option>
+    //     </select>
+    //   </label>
+
+    //   <p>Anger: {currentAverages.anger}</p>
+    //   <p>Disgust: {currentAverages.disgust}</p>
+    //   <p>Fear: {currentAverages.fear}</p>
+    //   <p>Joy: {currentAverages.joy}</p>
+    //   <p>Sadness: {currentAverages.sadness}</p>
+    // </div>
+  );
+};
+
+export default EmotionAverages;
+
+
+const styles = StyleSheet.create({
+    filters: {
+       flexDirection: "row",
+       justifyContent: 'space-between',
+       gap: 10
+    },
+    filter: {
+        width: 100,
+        height: 40,
+        backgroundColor: "red",
+        borderRadius: 15,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    loading: {
+        width: 100,
+        height: 100,
+        backgroundColor: "red",
+        marginLeft: 110,
+        marginTop: 25
+    },
+    container: {
+        // alignContent: "center"
+        // justifyContent: "center"
+    }
+
+})

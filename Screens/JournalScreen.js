@@ -24,7 +24,7 @@ const JournalScreen = ({ navigation }) => {
             const UserEntries = await GetUserEntries(uid);
             // console.log(UserEntries)
             setAllEntries(UserEntries);
-            console.log(AllEntries)
+            // console.log(AllEntries)
         } catch (error) {
             console.log(error);
         }

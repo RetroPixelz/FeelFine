@@ -1,10 +1,22 @@
-import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Alert, useWindowDimensions } from 'react-native'
 import React, { useEffect, useState, useMemo } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getCurrentUser, signOutUser } from '../Services/firebaseAuth'
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 import { GetUserEntries } from '../Services/firebasedb';
+import EmotionChart from './EmotionChart';
+// import { LineChart } from 'react-native-svg-charts';
+// import { BarChart, XAxis } from 'react-native-svg-charts'
+// import { LineChart, Grid } from 'react-native-svg-charts'
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
 
 
 const Landing = () => {
@@ -13,6 +25,14 @@ const Landing = () => {
   const [AllEntries, setAllEntries] = useState([]);
   const [uid, setUid] = useState();
   const [HealthScore, setHealthScore] = useState("0");
+  const [dataForChart, setDataForChart] = useState([]);
+  const { width } = useWindowDimensions();
+
+  const [todaysAverage, setTodaysAverage] = useState();
+  const [yesturdaysAverage, setYesturdaysAverage] = useState();
+  const [thisWeekAverage, setThisWeekAverage] = useState();
+
+
 
   const Signout = async () => {
     signOutUser();
@@ -44,11 +64,11 @@ const Landing = () => {
       console.log(error);
     }
   };
-
+  
   useEffect(() => {
-
-    getEntries();
-  }, [uid]);
+    getEntries(); 
+  }, []); 
+  
 
   useEffect(() => {
     if (AllEntries.length > 0) {
@@ -125,50 +145,154 @@ const Landing = () => {
 
   useEffect(() => {
     if (Array.isArray(AllEntries) && AllEntries.length > 0) {
-      const emotionAverages = calculateAverageEmotionScores(AllEntries);
-      
-      console.log(emotionAverages);
+      const emotionAverages = calculateEmotionAverages(dataForChart, 'today');
+      setTodaysAverage(emotionAverages)
+      console.log('Today Averages:', emotionAverages);
+  
+      const yesterdayAverages = calculateEmotionAverages(dataForChart, 'yesterday');
+      setYesturdaysAverage(yesterdayAverages)
+      console.log('Yesterday Averages:', yesterdayAverages);
+  
+      const thisWeekAverages = calculateEmotionAverages(dataForChart, 'thisWeek');
+      setThisWeekAverage(thisWeekAverages)
+      console.log('This Week Averages:', thisWeekAverages);
     }
   }, [AllEntries]);
   
-  const calculateAverageEmotionScores = (entries) => {
-    const emotionAverages = {};
-  
-    // Initialize emotion sums and counts
-    const emotionSums = {
-      anger: 0,
-      disgust: 0,
-      fear: 0,
-      joy: 0,
-      sadness: 0,
-      
+  const calculateEmotionAverages = (data, dateFilter) => {
+    const emotionSumCount = {
+      anger: { sum: 0, count: 0 },
+      disgust: { sum: 0, count: 0 },
+      fear: { sum: 0, count: 0 },
+      joy: { sum: 0, count: 0 },
+      sadness: { sum: 0, count: 0 },
     };
-    const emotionCounts = { ...emotionSums };
   
-    // make sure array not undefined
-    if (Array.isArray(entries)) {
-      // Calculate emotion sums and counts
-      entries.forEach((entry) => {
-        if (entry.JournalEntry.emotions && entry.JournalEntry.emotions.length > 0) {
-          entry.JournalEntry.emotions.forEach((emotion) => {
-            // Update emotion sums and counts
-            emotionSums[emotion.emotion] += emotion.score;
-            emotionCounts[emotion.emotion]++;
-          });
+    const currentDate = new Date(); // Store the current date
+  
+    // Filter the data based on the provided date range
+    const filteredData = data.filter((entry) => {
+      const entryDate = entry.date;
+  
+      if (dateFilter === 'today') {
+        const today = new Date();
+        return (
+          entryDate.getDate() === today.getDate() &&
+          entryDate.getMonth() === today.getMonth() &&
+          entryDate.getFullYear() === today.getFullYear()
+        );
+      }
+      
+  
+      if (dateFilter === 'yesterday') {
+        const yesterday = new Date(currentDate);
+        yesterday.setDate(currentDate.getDate() - 1);
+        if (isSameDay(entryDate, yesterday)) {
+          // Filter for entries from yesterday
+          return true;
+        }
+      }
+  
+      if (dateFilter === 'thisWeek' && isSameWeek(entryDate, currentDate)) {
+        // Filter for entries from this week
+        return true;
+      }
+  
+      return false;
+    });
+  
+    // Iterate through the filtered data to calculate the sum and count for each emotion
+    filteredData.forEach((entry) => {
+      Object.keys(entry).forEach((emotion) => {
+        if (emotion !== 'date') {
+          emotionSumCount[emotion].sum += entry[emotion];
+          emotionSumCount[emotion].count += 1;
         }
       });
-    }
+    });
   
-    // Calculate average emotion scores
-    for (const emotion in emotionSums) {
-      emotionAverages[emotion] = (emotionSums[emotion] / emotionCounts[emotion]).toFixed(2);
-    }
+    // Calculate the average for each emotion
+    const emotionAverages = {};
+    Object.keys(emotionSumCount).forEach((emotion) => {
+      emotionAverages[emotion] =
+        emotionSumCount[emotion].count > 0
+          ? emotionSumCount[emotion].sum / emotionSumCount[emotion].count
+          : 0;
+    });
   
     return emotionAverages;
   };
   
+  // Helper function to check if two dates are on the same day
+  const isSameDay = (date1, date2) =>
+    date1.getDate() === date2.getDate() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getFullYear() === date2.getFullYear();
+  
+  // Helper function to check if two dates are in the same week
+  const isSameWeek = (date1, date2) => {
+    // Your logic to check if two dates are in the same week
+    // This can be more complex, and you may need a library like `date-fns` for precise date calculations
+    // For simplicity, I've left it as a placeholder
+    return true;
+  };
+  
+  // console.log(emotionAverages)
   
 
+// Assuming your data is stored in a variable named "data" as an array of objects
+AllEntries.forEach(entry => {
+  // Check if the entry has a timestamp
+  if (entry.timestamp) {
+    const timestamp = entry.timestamp;
+    
+    // Access seconds and nanoseconds from the timestamp object
+    const seconds = timestamp.seconds;
+    const nanoseconds = timestamp.nanoseconds;
+
+    // To create a JavaScript Date object
+    const javascriptDate = new Date(seconds * 1000 + nanoseconds / 1000000);
+
+    // Now you have the JavaScript Date object for this entry
+    console.log(javascriptDate);
+  } else {
+    // Handle the case where the timestamp is missing or undefined
+    console.log("Timestamp is missing for this entry");
+  }
+});
+
+
+useEffect(() => {
+  const transformedData = AllEntries
+    .filter(entry => entry.timestamp && entry.JournalEntry && entry.JournalEntry.emotions)
+    .map(entry => ({
+      date: new Date(entry.timestamp.seconds * 1000 + entry.timestamp.nanoseconds / 1000000),
+      anger: (entry.JournalEntry.emotions.find(emotion => emotion.emotion === 'anger')?.score || 0),
+      disgust: (entry.JournalEntry.emotions.find(emotion => emotion.emotion === 'disgust')?.score || 0),
+      fear: (entry.JournalEntry.emotions.find(emotion => emotion.emotion === 'fear')?.score || 0),
+      joy: (entry.JournalEntry.emotions.find(emotion => emotion.emotion === 'joy')?.score || 0),
+      sadness: (entry.JournalEntry.emotions.find(emotion => emotion.emotion === 'sadness')?.score || 0),
+    }));
+
+  // console.log('transformedData:', transformedData);
+
+  setDataForChart(transformedData);
+  // console.log('data from chart' ,dataForChart)
+}, [AllEntries]);
+
+const validDataForChart = dataForChart.filter((item) => {
+  const validEmotions = ['anger', 'disgust', 'fear', 'joy', 'sadness'];
+  return (
+    !isNaN(item.date) &&
+    validEmotions.every((emotion) => !isNaN(item[emotion]))
+  );
+});
+
+// console.log('validDataForChart:', validDataForChart);
+
+const validEmotions = ['anger', 'disgust', 'fear', 'joy', 'sadness'];
+
+  
 
   return (
     <ScrollView style={styles.container}>
@@ -204,28 +328,65 @@ const Landing = () => {
 
       <View style={styles.YourEntries}>
         <Text style={styles.entriesText}> Emotion Overview </Text>
+        {/* <EmotionChart data={dummyData} /> */}
 
-        {/* {AllEntries.map((Entry, index) => (
-          <TouchableOpacity key={index}
-            onPress={() => navigation.navigate("EntryDetails", { Entry })}
-            activeOpacity={0.75}>
-            <View style={styles.Entry}>
-              <View style={styles.EntryBlock}></View>
-              <View style={styles.EntryTextBlock}>
-                <Text> {Entry.JournalEntry.title}</Text>
-                <Text style={styles.EntryThumbnail}>
-                  {Entry.JournalEntry.text
-                    ? Entry.JournalEntry.text
-                      .split(' ')
-                      .slice(0, 10) 
-                      .join(' ')
-                    : ''} </Text>
+       
+        <EmotionChart
+  todayAverages={todaysAverage} // Pass today's averages data
+  yesterdayAverages={yesturdaysAverage} // Pass yesterday's averages data
+  thisWeekAverages={thisWeekAverage} // Pass this week's averages data
+/>
+        {/* <Text>{dataForChart.anger}</Text> */}
+        <View>
+  {/* <Text>Emotion Line Chart</Text>
+  <LineChart
+    data={{
+      labels: ["anger", "Disgust", "joy", "sadness", "Fear"],
+      datasets: [
+        {
+          data: [
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100,
+            Math.random() * 100
+          ]
+        }
+      ]
+    }}
+    width={350} // from react-native
+    height={220}
+    yAxisLabel="$"
+    yAxisSuffix="k"
+    yAxisInterval={1} // optional, defaults to 1
+    chartConfig={{
+      backgroundColor: "#e26a00",
+      backgroundGradientFrom: "#fb8c00",
+      backgroundGradientTo: "#ffa726",
+      decimalPlaces: 2, // optional, defaults to 2dp
+      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+      style: {
+        borderRadius: 16
+      },
+      propsForDots: {
+        r: "6",
+        strokeWidth: "2",
+        stroke: "#ffa726"
+      }
+    }}
+    bezier
+    style={{
+      marginVertical: 8,
+      borderRadius: 16
+    }}
+  /> */}
+
+</View>
 
 
-              </View>
-            </View>
-          </TouchableOpacity>
-        ))} */}
+        
 
       </View>
       <TouchableOpacity onPress={clearOnboarding} style={styles.clear}>
@@ -240,7 +401,7 @@ const Landing = () => {
         <Text>test</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={calculateAverageEmotionScores} style={styles.clear}>
+      <TouchableOpacity onPress={calculateEmotionAverages} style={styles.clear}>
         <Text>average</Text>
       </TouchableOpacity>
 
@@ -392,7 +553,12 @@ const styles = StyleSheet.create({
   },
   recommendText: {
     color: 'white'
-  }
+  },
+  chart: {
+    height: 200,
+    width: 320,
+    // backgroundColor: "red"
+},
 
 
 
