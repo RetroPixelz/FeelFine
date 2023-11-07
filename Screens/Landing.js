@@ -1,19 +1,12 @@
-import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Alert, useWindowDimensions } from 'react-native'
-import React, { useEffect, useState, useMemo } from 'react'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, useWindowDimensions } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getCurrentUser, signOutUser } from '../Services/firebaseAuth'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 import { GetUserEntries } from '../Services/firebasedb';
 import EmotionChart from './EmotionChart';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
+
 
 
 const Landing = () => {
@@ -24,12 +17,9 @@ const Landing = () => {
   const [HealthScore, setHealthScore] = useState("0");
   const [dataForChart, setDataForChart] = useState([]);
   const { width } = useWindowDimensions();
-
   const [todaysAverage, setTodaysAverage] = useState();
   const [yesturdaysAverage, setYesturdaysAverage] = useState();
   const [thisWeekAverage, setThisWeekAverage] = useState();
-
-
 
   const Signout = async () => {
     signOutUser();
@@ -51,6 +41,8 @@ const Landing = () => {
       setUid(user.uid);
     }
   }, []);
+
+ 
 
   const getEntries = async () => {
     try {
@@ -183,7 +175,7 @@ const Landing = () => {
         const yesterday = new Date(currentDate);
         yesterday.setDate(currentDate.getDate() - 1);
         if (isSameDay(entryDate, yesterday)) {
-
+          console.log("isSameDay")
           return true;
         }
       }
@@ -299,13 +291,7 @@ const Landing = () => {
           todayAverages={todaysAverage}
           yesterdayAverages={yesturdaysAverage}
           thisWeekAverages={thisWeekAverage}
-
         />
-
-        <View>
-
-        </View>
-
       </View>
 
       <TouchableOpacity onPress={getEntries} style={styles.button}>

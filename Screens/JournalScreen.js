@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { getCurrentUser } from '../Services/firebaseAuth';
@@ -8,6 +8,8 @@ import { GetUserEntries } from '../Services/firebasedb';
 const JournalScreen = ({ navigation }) => {
     const [AllEntries, setAllEntries] = useState([]);
     const [uid, setUid] = useState();
+
+    console.log(AllEntries)
 
     useEffect(() => {
         const user = getCurrentUser();
@@ -55,6 +57,22 @@ const JournalScreen = ({ navigation }) => {
         }
     };
 
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredEntries, setFilteredEntries] = useState(AllEntries);
+
+    const handleSearch = (text) => {
+        setSearchQuery(text);
+        const filtered = AllEntries.filter((entry) => {
+            const timestamp = new Date(entry.timestamp.seconds * 1000 + entry.timestamp.nanoseconds / 1000000);
+
+            // Format the timestamp as a string
+            const formattedTimestamp = timestamp.toISOString(); 
+
+            return formattedTimestamp.toLowerCase().includes(text.toLowerCase());
+        });
+
+        setFilteredEntries(filtered);
+    };
 
 
 
@@ -69,10 +87,15 @@ const JournalScreen = ({ navigation }) => {
                     <Text style={styles.btnText}>+</Text>
                 </TouchableOpacity>
             </View>
-
+            <TextInput
+                style={styles.searchBar}
+                placeholder="Search for an Entry"
+                value={searchQuery}
+                onChangeText={handleSearch}
+            />
 
             <ScrollView style={styles.YourEntries} contentContainerStyle={{ alignItems: 'center' }}>
-                {AllEntries.map((Entry, index) => (
+                {filteredEntries.map((Entry, index) => (
                     <TouchableOpacity key={index} onPress={() => navigation.navigate("EntryDetails", { Entry })} activeOpacity={0.75}>
                         <View style={styles.Entry}>
                             <View style={[styles.EntryBlock, { backgroundColor: getColorForEmotion(Entry) }]}></View>
@@ -166,6 +189,19 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: "bold",
         color: "white"
-    }
+    },
+    searchBar: {
+        width: 350,
+        height: 40,
+        backgroundColor: '#F5F6FA',
+        marginTop: 20,
+        borderRadius: 5,
+        justifyContent: "center",
+        paddingLeft: 10
+    },
+    searchBarText: {
+        color: "black",
+        fontSize: 15
+    },
 
 })

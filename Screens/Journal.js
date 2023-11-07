@@ -1,4 +1,4 @@
-import { Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Button, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import { saveJournalEntry } from '../Services/firebasedb';
@@ -55,8 +55,11 @@ const Journal = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('JournalScreen')}>
-        <Text style={styles.btnText}> Back </Text>
-      </TouchableOpacity>
+                    <Image
+                        source={require('../assets/return.png')}
+                        style={styles.symbol}
+                    />
+                </TouchableOpacity>
       <Text style={styles.HowWasDay}>How was your day</Text>
 
       <View style={styles.JournalSection}>
@@ -155,8 +158,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   btn: {
-    height: 40,
-    width: 60,
+    height: 30,
+    width: 30,
     backgroundColor: "#8B80F8",
     borderRadius: 20,
     justifyContent: "center",
@@ -166,4 +169,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20
   },
+  symbol: {
+    width: 10,
+    height: 10
+}
 })

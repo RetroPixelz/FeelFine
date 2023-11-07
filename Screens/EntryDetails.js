@@ -1,6 +1,7 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Dimensions, Image } from 'react-native'
 import React from 'react'
-import { BarChart, XAxis } from 'react-native-svg-charts'
+import { BarChart } from 'react-native-svg-charts'
+
 
 const EntryDetails = ({ route, navigation }) => {
     const { Entry } = route.params;
@@ -8,14 +9,18 @@ const EntryDetails = ({ route, navigation }) => {
 
     function calculateAverageMentalHealthScore(emotionsArray) {
         if (emotionsArray.length === 0) {
-            console.log("nothing to calculate")
+            console.log("No emotions to calculate");
             return 0;
         }
 
         const totalScore = emotionsArray.reduce((accumulator, emotionObject) => {
-            return accumulator + emotionObject.score;
+            if (typeof emotionObject.score === 'number' && !isNaN(emotionObject.score)) {
+                return accumulator + emotionObject.score;
+            } else {
+                console.log("Invalid emotion score:", emotionObject.score);
+                return accumulator; 
+            }
         }, 0);
-        console.log(totalScore)
 
         return totalScore / emotionsArray.length;
     }
@@ -24,27 +29,27 @@ const EntryDetails = ({ route, navigation }) => {
     const roundedHealthScore = parseFloat(averageScore).toFixed(2);
     console.log('Average Mental Health Score:', averageScore);
 
-
     const data = emotionsArray.map(emotionObject => ({
-        value: emotionObject.score,
+        value: typeof emotionObject.score === 'number' && !isNaN(emotionObject.score) ? emotionObject.score : 0,
         label: emotionObject.emotion,
         svg: {
             fill: '#8B80F8',
         },
     }));
 
+    
 
 
-    const back = () => {
-        navigation.navigate("JournalScreen")
-    }
 
     return (
         <View style={styles.container}>
 
             <View style={styles.topRow}>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('JournalScreen')}>
-                    <Text style={styles.btnText}> Back </Text>
+                    <Image
+                        source={require('../assets/return.png')}
+                        style={styles.symbol}
+                    />
                 </TouchableOpacity>
                 <View style={styles.scoreHere}>
                     <Text style={styles.score}>{roundedHealthScore}</Text>
@@ -74,7 +79,6 @@ const EntryDetails = ({ route, navigation }) => {
                 </View>
                 <Text style={styles.EntryTitle}>{Entry.JournalEntry.title}</Text>
                 <Text style={styles.Entry}>{Entry.JournalEntry.text}</Text>
-                <Text style={styles.averageScore}>Your Average score for this entry is: {roundedHealthScore} </Text>
                 <TouchableOpacity style={styles.Analyse} >
                     <Text style={styles.AnalyseText}>Delete Entry</Text>
                 </TouchableOpacity>
@@ -141,16 +145,17 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     btn: {
-        height: 40,
-        width: 60,
+        height: 30,
+        width: 30,
         backgroundColor: "#8B80F8",
         borderRadius: 20,
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "row"
     },
     btnText: {
         color: 'white',
-        fontSize: 20
+        fontSize: 15
     },
     topRow: {
         flexDirection: "row",
@@ -167,5 +172,9 @@ const styles = StyleSheet.create({
     },
     score: {
         color: "white"
+    },
+    symbol: {
+        width: 10,
+        height: 10
     }
 })

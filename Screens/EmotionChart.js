@@ -13,7 +13,7 @@ import {
 const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages }) => {
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('today');
 
-    console.log(todayAverages)
+    console.log("todays", todayAverages)
     const handleTimePeriodChange = (newTimePeriod) => {
         setSelectedTimePeriod(newTimePeriod);
     };
@@ -22,7 +22,7 @@ const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages })
         switch (selectedTimePeriod) {
             case 'today':
                 return todayAverages;
-            case 'Yesterday':
+            case 'yesterday':
                 return yesterdayAverages;
             case 'thisWeek':
                 return thisWeekAverages;
@@ -85,32 +85,21 @@ const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages })
         useShadowColorFromDataset: false
     };
 
+    const noEntries = currentAverages && Object.values(currentAverages).every(value => value === 0);
+
+
     return (
         <>
 
             <View style={styles.container}>
-                <View style={styles.filters}>
-                    <TouchableOpacity style={styles.filter} onPress={() => handleTimePeriodChange('today')}>
-                        <Text>
-                            Today
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.filter} onPress={() => handleTimePeriodChange('yesturday')}>
-                        <Text>
-                            Yesterday
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.filter} onPress={() => handleTimePeriodChange('thisWeek')}>
-                        <Text>
-                            This week
-                        </Text>
-                    </TouchableOpacity>
-                </View>
 
 
-                {currentAverages && currentAverages ? (
+                {noEntries ? (
+                    <View style={styles.noEntriesMessage}>
+                        <Text>No entries for this date</Text>
+                    </View>
+                ) : (
                     <View style={styles.chart}>
-
                         <PieChart
                             data={data}
                             width={350}
@@ -118,19 +107,29 @@ const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages })
                             chartConfig={chartConfig}
                             accessor={"population"}
                             backgroundColor={"transparent"}
-                            paddingLeft={"15"}
-
                         />
-
-
                     </View>
-                ) : (
-
-                    <View style={styles.loading}>
-                        <Text>Loading...</Text>
-                    </View>
-
                 )}
+            </View>
+            <View style={styles.filters}>
+                <TouchableOpacity
+                    style={[styles.filter, selectedTimePeriod === 'today' ? styles.activeFilter : styles.inactiveFilter]}
+                    onPress={() => handleTimePeriodChange('today')}>
+                    <Text>Today</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[styles.filter, selectedTimePeriod === 'yesterday' ? styles.activeFilter : styles.inactiveFilter]}
+                    onPress={() => handleTimePeriodChange('yesterday')}>
+                    <Text>Yesterday</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[styles.filter, selectedTimePeriod === 'thisWeek' ? styles.activeFilter : styles.inactiveFilter]}
+                    onPress={() => handleTimePeriodChange('thisWeek')}>
+                    <Text>This week</Text>
+                </TouchableOpacity>
+
             </View>
         </>
 
@@ -141,10 +140,15 @@ export default EmotionAverages;
 
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: "center"
+    },
     filters: {
         flexDirection: "row",
         justifyContent: 'space-between',
-        gap: 10
+        gap: 10,
+        width: 300,
+
     },
     filter: {
         width: 100,
@@ -152,7 +156,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#AF8EFF",
         borderRadius: 15,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
+    },
+    activeFilter: {
+        backgroundColor: "#AF8EFF", // Style for the active button
+    },
+    inactiveFilter: {
+        backgroundColor: "#CCCCCC", // Style for the inactive buttons
     },
     loading: {
         width: 100,
@@ -165,7 +175,14 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     chart: {
-        marginTop: 50
+        marginTop: 20
+    },
+    noEntriesMessage: {
+        height: 200,
+        marginTop: 20,
+        justifyContent: "center",
+        alignItems: "center"
+
     }
 
 })
