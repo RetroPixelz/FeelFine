@@ -38,9 +38,9 @@ const Doctors = ({ navigation }) => {
         {filteredDoctors.map((doctor, index) => (
           <View style={styles.DoctorCard} key={index}>
             <View style={styles.DoctorDetails}>
-              <View style={styles.DoctorImage}>
-                {/* images */}
-              </View>
+              {/* <View style={styles.DoctorImage}>
+                
+              </View> */}
               <View style={styles.DetailSection}>
                 <Text style={styles.DoctorName}>{doctor.name}</Text>
                 <Text style={styles.Proffesion}>{doctor.Proffesion}</Text>
@@ -70,7 +70,9 @@ const styles = StyleSheet.create({
     padding: 25
   },
   heroText: {
-    fontSize: 20
+    fontSize: 20,
+    fontFamily: 'MontserratBold',
+
   },
   searchBar: {
     width: 350,
@@ -79,7 +81,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 5,
     justifyContent: "center",
-    paddingLeft: 10
+    paddingLeft: 10,
+    fontFamily: 'MontserratBold',
+
   },
   searchBarText: {
     color: "black",
@@ -114,15 +118,21 @@ const styles = StyleSheet.create({
   },
   DoctorName: {
     fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 15
+    // fontWeight: "bold",
+    marginBottom: 10,
+    fontFamily: 'MontserratBold',
+
   },
   Proffesion: {
     fontSize: 12.5,
-    marginBottom: 2.5
+    marginBottom: 2.5,
+    fontFamily: 'MontserratRegular',
+
   },
   Location: {
-    fontSize: 12.5
+    fontSize: 12.5,
+    fontFamily: 'MontserratRegular',
+
   },
   BottomSection: {
     flexDirection: "row",
@@ -132,7 +142,7 @@ const styles = StyleSheet.create({
   GetInTouch: {
     width: 150,
     height: 40,
-    backgroundColor: "#8B80F8",
+    backgroundColor: "#AF8EFF",
     marginLeft: 20,
     borderRadius: 5,
     justifyContent: "center",
@@ -141,7 +151,8 @@ const styles = StyleSheet.create({
   GetInTouchText: {
     color: "white",
     fontSize: 15,
-    fontWeight: "bold",
+    fontFamily: 'MontserratBold',
+
   },
   contact: {
     width: 150,

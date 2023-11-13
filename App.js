@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Settings, StyleSheet, Text, View } from 'react-native';
 import Landing from './Screens/Landing';
 import Doctors from './Screens/Doctors';
 import { createStackNavigator } from '@react-navigation/stack'; // Make sure this import is correct
@@ -16,6 +16,10 @@ import Login from './Screens/Login';
 import Register from './Screens/Register';
 import EntryDetails from './Screens/EntryDetails';
 import JournalScreen from './Screens/JournalScreen';
+import { useFonts } from 'expo-font';
+import SettingsScreen from './Screens/SettingsScreen';
+// import { useFonts} from '@expo-google-fonts/montserrat';
+
 
 
 const Tab = createBottomTabNavigator();
@@ -42,6 +46,7 @@ function TabNavigator() {
     screenOptions={{
       style: {
         backgroundColor: 'purple', // Background color of the tab bar
+        
       },
       activeTintColor: '#AF8EFF', // Color for active tab icons
       inactiveTintColor: 'gray', // Color for inactive tab icons
@@ -57,6 +62,8 @@ function TabNavigator() {
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
         }}
+        
+        
       />
       <Tab.Screen
         name="Doctors"
@@ -67,7 +74,7 @@ function TabNavigator() {
           ),
         }}
       />
-      <Tab.Screen
+      <Tab.Screen  
         name="Exercise"
         component={Exercise}
         options={{
@@ -86,24 +93,26 @@ function TabNavigator() {
         }}
       />
        <Tab.Screen
-        name="Journal"
-        component={Journal} // Nested "Journal" tab
+        name="Settings"
+        component={SettingsScreen} 
         options={{
-          tabBarButton: () => null, // Hide the tab icon for the nested "Journal" tab
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="cog" color={color} size={size} />
+          ),
         }}
       />
       <Tab.Screen
         name="Login"
-        component={Login} // Nested "Journal" tab
+        component={Login} 
         options={{
-          tabBarButton: () => null, // Hide the tab icon for the nested "Journal" tab
+          tabBarButton: () => null, 
         }}
       />
       <Tab.Screen
         name="EntryDetails"
-        component={EntryDetails} // Nested "Journal" tab
+        component={EntryDetails} 
         options={{
-          tabBarButton: () => null, // Hide the tab icon for the nested "Journal" tab
+          tabBarButton: () => null, 
         }}
       />
       
@@ -117,6 +126,14 @@ export default function App({navigation, props}) {
 
   const [loading, setLoading] = useState(true);
   const [viewedOnboarding, setViewedOnboarding] = useState(false);
+
+  const [loaded] = useFonts({
+    MontserratBold: require('./assets/fonts/Montserrat-Bold.ttf'),
+    MontserratRegular: require('./assets/fonts/Montserrat-Regular.ttf'),
+    MontserratLight: require('./assets/fonts/Montserrat-Light.ttf'),
+
+
+  })
 
   const checkOnboarding = async () => {
     try {
@@ -134,6 +151,11 @@ export default function App({navigation, props}) {
   useEffect(() => {
     checkOnboarding();
   }, [])
+
+  if(!loaded) {
+    return null;
+   }
+  
 
   return (
     <NavigationContainer>

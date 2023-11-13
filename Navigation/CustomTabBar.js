@@ -26,7 +26,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
             <View
               style={{
                 backgroundColor: 'purple', // Background color for active tab
-                borderRadius: 25, // Make it circular
+                borderRadius: 1, // Make it circular
               }}
             >
               <Text style={{ color: 'white' }}>{label}</Text>

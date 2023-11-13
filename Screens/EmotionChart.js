@@ -12,8 +12,13 @@ import {
 
 const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages }) => {
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('today');
+    
+    console.log("T",todayAverages)
+    console.log("Y",yesterdayAverages)
+    console.log("W", thisWeekAverages)
 
-    console.log("todays", todayAverages)
+
+    // console.log(todayAverages)
     const handleTimePeriodChange = (newTimePeriod) => {
         setSelectedTimePeriod(newTimePeriod);
     };
@@ -32,7 +37,7 @@ const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages })
     };
 
     const currentAverages = getAveragesForTimePeriod();
-    console.log(currentAverages)
+    // console.log(currentAverages)
 
 
     const data = [
@@ -96,7 +101,7 @@ const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages })
 
                 {noEntries ? (
                     <View style={styles.noEntriesMessage}>
-                        <Text>No entries for this date</Text>
+                        <Text style={styles.noEntriesMessageText}>No entries for this date</Text>
                     </View>
                 ) : (
                     <View style={styles.chart}>
@@ -115,19 +120,19 @@ const EmotionAverages = ({ todayAverages, yesterdayAverages, thisWeekAverages })
                 <TouchableOpacity
                     style={[styles.filter, selectedTimePeriod === 'today' ? styles.activeFilter : styles.inactiveFilter]}
                     onPress={() => handleTimePeriodChange('today')}>
-                    <Text>Today</Text>
+                    <Text style={styles.FilterText}>Today</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     style={[styles.filter, selectedTimePeriod === 'yesterday' ? styles.activeFilter : styles.inactiveFilter]}
                     onPress={() => handleTimePeriodChange('yesterday')}>
-                    <Text>Yesterday</Text>
+                    <Text style={styles.FilterText}>Yesterday</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     style={[styles.filter, selectedTimePeriod === 'thisWeek' ? styles.activeFilter : styles.inactiveFilter]}
                     onPress={() => handleTimePeriodChange('thisWeek')}>
-                    <Text>This week</Text>
+                    <Text style={styles.FilterText}>This week</Text>
                 </TouchableOpacity>
 
             </View>
@@ -148,11 +153,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         gap: 10,
         width: 300,
-
+        marginTop: 20,
+        // backgroundColor: "red"
     },
     filter: {
         width: 100,
-        height: 40,
+        height: 30,
         backgroundColor: "#AF8EFF",
         borderRadius: 15,
         alignItems: "center",
@@ -162,7 +168,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#AF8EFF", // Style for the active button
     },
     inactiveFilter: {
-        backgroundColor: "#CCCCCC", // Style for the inactive buttons
+        backgroundColor: "#FFFFFF", // Style for the inactive buttons
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: "#AF8EFF"
     },
     loading: {
         width: 100,
@@ -181,8 +190,18 @@ const styles = StyleSheet.create({
         height: 200,
         marginTop: 20,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+       
 
+    },
+    noEntriesMessageText: {
+        fontFamily: 'MontserratRegular',
+    },
+    FilterText: {
+        fontFamily: 'MontserratRegular',
+        fontSize: 12,
+        
+        // color: "white"
     }
 
 })

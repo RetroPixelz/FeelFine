@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, useWindowDimensions } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, useWindowDimensions, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getCurrentUser, signOutUser } from '../Services/firebaseAuth'
@@ -6,6 +6,8 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 import { GetUserEntries } from '../Services/firebasedb';
 import EmotionChart from './EmotionChart';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
+
 
 
 
@@ -20,6 +22,9 @@ const Landing = () => {
   const [todaysAverage, setTodaysAverage] = useState();
   const [yesturdaysAverage, setYesturdaysAverage] = useState();
   const [thisWeekAverage, setThisWeekAverage] = useState();
+  const [data, setData] = useState([]);
+  const [retryCount, setRetryCount] = useState(0);
+  const maxRetries = 6;
 
   const Signout = async () => {
     signOutUser();
@@ -42,21 +47,33 @@ const Landing = () => {
     }
   }, []);
 
- 
+
 
   const getEntries = async () => {
     try {
-      console.log("Getting data");
+      console.log('Getting data');
       const UserEntries = await GetUserEntries(uid);
       setAllEntries(UserEntries);
+      setData(UserEntries);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getEntries();
-  }, []);
+    if (retryCount < maxRetries) {
+      getEntries();
+      setRetryCount(retryCount + 1);
+    }
+  }, [retryCount]);
+
+  useEffect(() => {
+    if (retryCount < maxRetries) {
+      // To ensure it runs six times, you can increment the counter here
+      setRetryCount(retryCount + 1);
+    }
+  }, [data]);
+
 
 
   useEffect(() => {
@@ -146,6 +163,7 @@ const Landing = () => {
       console.log('This Week Averages:', thisWeekAverages);
     }
   }, [AllEntries]);
+
 
   const calculateEmotionAverages = (data, dateFilter) => {
     const emotionSumCount = {
@@ -254,6 +272,7 @@ const Landing = () => {
 
   return (
     <ScrollView style={styles.container}>
+      
       {AllEntries.length === 0 ? (
         <View style={styles.heroBox}>
           <Text style={styles.heroText}>Get Journaling</Text>
@@ -284,31 +303,48 @@ const Landing = () => {
         </View>
       )}
 
-      <View style={styles.YourEntries}>
-        <Text style={styles.entriesText}> Emotion Overview </Text>
+      
 
-        <EmotionChart
-          todayAverages={todaysAverage}
-          yesterdayAverages={yesturdaysAverage}
-          thisWeekAverages={thisWeekAverage}
-        />
+      <View style={styles.YourEntries}>
+        <View style={styles.tabs}>
+        <MaterialCommunityIcons name="refresh" color="transparent" size={20} />
+
+
+        <Text style={styles.entriesText}> Emotion Overview </Text>
+        <TouchableOpacity onPress={getEntries} style={styles.button}>
+            <MaterialCommunityIcons name="refresh" color="black" size={20} />
+        </TouchableOpacity>
+        </View>
+        
+        
+
+        {todaysAverage && yesturdaysAverage && thisWeekAverage ? (
+          <EmotionChart
+            todayAverages={todaysAverage}
+            yesterdayAverages={yesturdaysAverage}
+            thisWeekAverages={thisWeekAverage}
+          />
+        ) : (
+          <View style={styles.noEntriesMessage}>
+                        <Text style={styles.noEntriesMessageText}>No entries for this date</Text>
+                    </View>
+        )}
+
       </View>
 
-      <TouchableOpacity onPress={getEntries} style={styles.button}>
-        <Text style={styles.refresh}>Refresh</Text>
-      </TouchableOpacity>
+      
 
 
-      <View style={styles.buttons}>
+      {/* <View style={styles.buttons}>
         <TouchableOpacity onPress={clearOnboarding} style={styles.clear}>
-          <Text>clear Onboarding</Text>
+          <Text style={styles.refresh2}>clear Onboarding</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={Signout} style={styles.clear}>
-          <Text>Sign out</Text>
+          <Text style={styles.refresh2}>Sign out</Text>
         </TouchableOpacity>
 
-      </View>
+      </View> */}
 
 
 
@@ -335,19 +371,24 @@ const styles = StyleSheet.create({
     paddingTop: 20
   },
   heroText: {
-    fontSize: 30
+    fontSize: 30,
+    
   },
   heroPara1: {
     fontSize: 10,
     textAlign: "center",
     width: 250,
-    padding: 20
+    padding: 20,
+    fontFamily: 'MontserratRegular',
+
   },
   heroPara: {
-    fontSize: 15,
+    fontSize: 12,
     textAlign: "center",
     width: 250,
-    padding: 20
+    padding: 20,
+    fontFamily: 'MontserratRegular',
+
   },
   heroBoxWithHealthScore: {
     width: 350,
@@ -373,7 +414,9 @@ const styles = StyleSheet.create({
   },
   healthScore: {
     fontSize: 30,
-    color: 'white'
+    color: 'white',
+    fontFamily: 'MontserratBold',
+
   },
   MakeEntry: {
     width: 250,
@@ -385,7 +428,9 @@ const styles = StyleSheet.create({
   },
   MakeEntryText: {
     color: "white",
-    fontSize: 20
+    fontSize: 20,
+    fontFamily: 'MontserratRegular',
+
   },
   Categories: {
     flexDirection: 'row',
@@ -419,7 +464,9 @@ const styles = StyleSheet.create({
   entriesText: {
     fontSize: 25,
     textAlign: "center",
-    marginBottom: 15
+    marginBottom: 15,
+    fontFamily: 'MontserratBold',
+
   },
   Entry: {
     width: 300,
@@ -443,7 +490,8 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   EntryThumbnail: {
-    fontSize: 10
+    fontSize: 10,
+  
   },
   clear: {
     width: 140,
@@ -465,7 +513,9 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   recommendText: {
-    color: 'white'
+    color: 'white',
+    fontFamily: 'MontserratBold',
+
   },
   chart: {
     height: 200,
@@ -475,8 +525,8 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   button: {
-    width: 350,
-    height: 50,
+    width: 25,
+    height: 25,
     backgroundColor: "#AF8EFF",
     alignItems: "center",
     justifyContent: "center",
@@ -485,9 +535,34 @@ const styles = StyleSheet.create({
   },
   refresh: {
     fontSize: 25,
-    fontWeight: "bold",
-    color: "white"
-  }
+    // fontWeight: "bold",
+    color: "white",
+    fontFamily: 'MontserratBold',
+
+  },
+  refresh2: {
+    fontSize: 12,
+    // fontWeight: "bold",
+    color: "white",
+    fontFamily: 'MontserratBold',
+
+  },
+  noEntriesMessage: {
+    height: 200,
+    marginTop: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    fontFamily: 'MontserratRegular',
+},
+noEntriesMessageText: {
+  fontFamily: 'MontserratRegular',
+
+},
+tabs: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  gap: 15
+}
 
 
 

@@ -20,7 +20,7 @@
 <p align="center">
 
   <a >
-    <img src="assets/Logo.png" alt="Logo" width="100px">
+    <img src="assets/FEEL_FINE.png" alt="Logo" width="100px">
   </a>
   
   <h3 align="center">Feel Fine</h3>

@@ -1,34 +1,47 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
 
 const Exercise = () => {
   const Exercises = [
     { name: 'Childs Pose', type: 'stretch', duration: '10-20 min', },
     { name: 'Childs Pose', type: 'stretch', duration: '10-20 min', },
     { name: 'Childs Pose', type: 'stretch', duration: '10-20 min', },
-    { name: 'Childs Pose', type: 'stretch', duration: '10-20 min', },
+    { name: 'Rose', type: 'stretch', duration: '10-20 min', },
   ]
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredExercises, setFilteredExercises] = useState(Exercises);
+
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+    const filtered = Exercises.filter((exercise) =>
+    exercise.name.toLowerCase().includes(text.toLowerCase()) ||
+    exercise.type.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredExercises(filtered);
+  };
 
   return (
     <View style={styles.container}>
 
       <Text style={styles.heroText}>Let's find a Exercise</Text>
 
-      <View style={styles.searchBar}>
-        <Text style={styles.searchBarText}>
-          Search for a Exercise
-        </Text>
-      </View>
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search for an Exercise"
+        value={searchQuery}
+        onChangeText={handleSearch}
+      />
 
       <ScrollView style={styles.ExerciseCardSection}>
 
-      {Exercises.map((Exercise, index) => (
+      {filteredExercises.map((Exercise, index) => (
           <View style={styles.ExerciseCard} key={index}>
 
           <View style={styles.ExerciseDetails}>
-            <View style={styles.ExerciseImage}>
+            {/* <View style={styles.ExerciseImage}>
 
-            </View>
+            </View> */}
             <View style={styles.DetailSection}>
               <Text style={styles.ExerciseName}>{Exercise.name}</Text>
               <Text style={styles.ExerciseType}>{Exercise.type}</Text>
@@ -62,7 +75,9 @@ const styles = StyleSheet.create({
     padding: 25
   },
   heroText: {
-    fontSize: 20
+    fontSize: 20,
+    fontFamily: 'MontserratBold',
+
   },
   searchBar: {
     width: 350,
@@ -75,7 +90,9 @@ const styles = StyleSheet.create({
   },
   searchBarText: {
     color: "black",
-    fontSize: 15
+    fontSize: 15,
+    fontFamily: 'MontserratBold',
+
   },
   ExerciseCardSection: {
     marginTop: 30,
@@ -106,15 +123,20 @@ const styles = StyleSheet.create({
   },
   ExerciseName: {
     fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 15
+    fontFamily: 'MontserratBold',
+    marginBottom: 10,
+
   },
   ExerciseType: {
     fontSize: 12.5,
-    marginBottom: 2.5
+    marginBottom: 2.5,
+    fontFamily: 'MontserratRegular',
+
   },
   Location: {
-    fontSize: 12.5
+    fontSize: 12.5,
+    fontFamily: 'MontserratRegular',
+
   },
   BottomSection: {
     flexDirection: "row",
@@ -124,7 +146,7 @@ const styles = StyleSheet.create({
   TryOut: {
     width: 150,
     height: 40,
-    backgroundColor: "#8B80F8",
+    backgroundColor: "#AF8EFF",
     marginLeft: 20,
     borderRadius: 5,
     justifyContent: "center",
@@ -133,9 +155,12 @@ const styles = StyleSheet.create({
   TryOutText: {
     color: "white",
     fontSize: 15,
-    fontWeight: "bold",
+    fontFamily: 'MontserratBold',
+   
   },
   duration: {
     width: 150,
+    fontFamily: 'MontserratRegular',
+
   }
 })

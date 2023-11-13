@@ -81,9 +81,9 @@ const Journal = ({ navigation }) => {
           numberOfLines={1}
         />
         <View style={styles.submitBox}>
-          <TouchableOpacity style={styles.CameraBox}>
+          {/* <TouchableOpacity style={styles.CameraBox}>
             <MaterialCommunityIcons name="camera-outline" color={"white"} size={40} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={styles.Analyse} onPress={handleAnalyzeAndSave}>
             <Text style={styles.AnalyseText}>Analyse</Text>
           </TouchableOpacity>
@@ -102,7 +102,9 @@ const styles = StyleSheet.create({
     padding: 25
   },
   HowWasDay: {
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: 'MontserratBold',
+
     fontSize: 20,
     textAlign: 'center'
   },
@@ -117,22 +119,26 @@ const styles = StyleSheet.create({
   titleInput: {
     width: 350,
     backgroundColor: "#F5F6FA",
-    borderRadius: 15,
-    padding: 15
+    borderRadius: 10,
+    padding: 5,
+    fontFamily: 'MontserratRegular',
+
   },
   input: {
     width: 350,
     height: 350,
     backgroundColor: "#F5F6FA",
-    borderRadius: 15,
+    borderRadius: 10,
     marginTop: 20,
-    padding: 15
+    padding: 5,
+    fontFamily: 'MontserratRegular',
+
   },
   submitBox: {
     flexDirection: "row",
     width: 350,
     height: 75,
-    marginTop: 25,
+    marginTop: 10,
 
   },
   CameraBox: {
@@ -144,18 +150,20 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   Analyse: {
-    width: 255,
+    width: "100%",
     height: 55,
     backgroundColor: "#8B80F8",
-    marginLeft: 20,
+    // marginLeft: 20,
     borderRadius: 5,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    
   },
   AnalyseText: {
     color: "white",
     fontSize: 25,
-    fontWeight: "bold"
+    fontFamily: 'MontserratBold',
+
   },
   btn: {
     height: 30,

@@ -6,8 +6,8 @@ import { signInUser } from '../Services/firebaseAuth';
 
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('Email');
+    const [password, setPassword] = useState('Password');
 
     const [loading, setLoading] = useState(false);
 
@@ -42,18 +42,18 @@ const Login = () => {
             {!loading ?
                 (
                     <>
-                        <Image source={require('../assets/Logo.png')} style={[styles.image, { resizeMode: 'contain' }]} />
+                        <Image source={require('../assets/FEEL_FINE.png')} style={[styles.image, { resizeMode: 'contain' }]} />
 
                         <Text style={styles.inputLabel} >Email</Text>
-                        <TextInput style={styles.input} onChangeText={(newValue) => setEmail(newValue)} />
+                        <TextInput style={styles.input} onChangeText={(newValue) => setEmail(newValue)} placeholder='Enter Email' />
 
-                        <Text style={styles.inputLabel}>password</Text>
-                        <TextInput style={styles.input} onChangeText={(newValue) => setPassword(newValue)} />
+                        <Text style={styles.inputLabel}>Password</Text>
+                        <TextInput style={styles.input} onChangeText={(newValue) => setPassword(newValue)}  placeholder='Enter Password'/>
 
                         <TouchableOpacity onPress={logOn} style={styles.button}>
-                            <Text>Login</Text>
+                            <Text style={styles.buttonText}>Login</Text>
                         </TouchableOpacity>
-                        <Text onPress={() => navigation.navigate('Register')}>Create an account</Text>
+                        <Text onPress={() => navigation.navigate('Register')} style={styles.extra}>Create an account?</Text>
                     </>
                 )
                 :
@@ -77,17 +77,20 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
     },
     image: {
-        flex: 0.3,
-        height: 100,
+        flex: 0.5,
+        height: 300,
+        width: 150,
         justifyContent: 'center',
-        marginBottom: 100
+        marginBottom: 50,
+        // backgroundColor: "red"
     },
     inputLabel: {
         fontSize: 12,
         marginTop: 20,
         alignItems: "center",
         marginBottom: 5,
-        color: 'black'
+        color: 'black', 
+        fontFamily: 'MontserratRegular',
     },
     input: {
         backgroundColor: '#F5F6FA',
@@ -96,17 +99,29 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         color: 'black',
         alignSelf: 'center',
-        paddingLeft: 20
+        paddingLeft: 20,
+        fontFamily: 'MontserratRegular',
+
     },
     button: {
         width: 200,
+        height: 40,
         backgroundColor: '#AF8EFF',
         borderRadius: 15,
-        padding: 20,
+        // padding: 20,
         alignItems: "center",
+        justifyContent: "center",
         marginTop: 50,
         marginBottom: 20
-
+    },
+    buttonText: {
+        fontFamily: 'MontserratBold',
+        fontSize: 16,
+        color: "white"
+    },
+    extra: {
+        fontFamily: 'MontserratRegular',
+        fontSize: 12
     },
     loading: {
         fontSize: 15

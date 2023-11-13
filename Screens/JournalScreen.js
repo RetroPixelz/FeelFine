@@ -100,10 +100,10 @@ const JournalScreen = ({ navigation }) => {
                         <View style={styles.Entry}>
                             <View style={[styles.EntryBlock, { backgroundColor: getColorForEmotion(Entry) }]}></View>
                             <View style={styles.EntryTextBlock}>
-                                <Text>{Entry.JournalEntry.title}</Text>
+                                <Text style={styles.TitleText}>{Entry.JournalEntry.title}</Text>
                                 <Text style={styles.EntryThumbnail}>
                                     {Entry.JournalEntry.text
-                                        ? Entry.JournalEntry.text.split(' ').slice(0, 10).join(' ')
+                                        ? Entry.JournalEntry.text.split(' ').slice(0, 16).join(' ')
                                         : ''}
                                 </Text>
                             </View>
@@ -137,14 +137,16 @@ const styles = StyleSheet.create({
     btn: {
         height: 40,
         width: 40,
-        backgroundColor: "#8B80F8",
+        backgroundColor: "#AF8EFF",
         borderRadius: 20,
         justifyContent: "center",
         alignItems: "center",
     },
     btnText: {
         color: 'white',
-        fontSize: 20
+        fontSize: 20,
+        fontFamily: 'MontserratBold',
+
     },
     YourEntries: {
         width: 350,
@@ -183,12 +185,15 @@ const styles = StyleSheet.create({
         backgroundColor: "#AF8EFF",
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 15
+        borderRadius: 10,
+       
     },
     refresh: {
         fontSize: 25,
         fontWeight: "bold",
-        color: "white"
+        color: "white",
+        fontFamily: 'MontserratBold',
+
     },
     searchBar: {
         width: 350,
@@ -197,11 +202,22 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 5,
         justifyContent: "center",
-        paddingLeft: 10
+        paddingLeft: 10,
+        fontFamily: 'MontserratRegular',
+
     },
     searchBarText: {
         color: "black",
         fontSize: 15
     },
+    TitleText: {
+        fontFamily: 'MontserratBold',
+        fontSize: 16
+    },
+    EntryThumbnail: {
+        fontFamily: 'MontserratRegular',
+        fontSize: 10
+
+    }
 
 })
