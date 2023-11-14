@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Doctors = ({ navigation }) => {
   const allDoctors = [
@@ -7,7 +7,7 @@ const Doctors = ({ navigation }) => {
     { name: 'Dr. M Steele', Proffesion: 'Clinical Psychologist', Location: 'Menlyn Main' },
     { name: 'Dr. M Viljoen', Proffesion: 'Clinical Psychologist', Location: 'Menlyn Main' },
     { name: 'Ashley Chetty', Proffesion: 'Clinical Psychologist', Location: 'Menlyn Main' },
-    { name: 'Laura Pakendorf', Proffesion: 'Occupational Therapist',  Location: 'Midstream' },
+    { name: 'Laura Pakendorf', Proffesion: 'Occupational Therapist', Location: 'Midstream' },
 
   ];
 
@@ -23,6 +23,8 @@ const Doctors = ({ navigation }) => {
     setFilteredDoctors(filtered);
   };
 
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.heroText}>Let's find a doctor</Text>
@@ -35,26 +37,30 @@ const Doctors = ({ navigation }) => {
       />
 
       <ScrollView style={styles.DoctorCardSection}>
-        {filteredDoctors.map((doctor, index) => (
-          <View style={styles.DoctorCard} key={index}>
-            <View style={styles.DoctorDetails}>
-              {/* <View style={styles.DoctorImage}>
-                
-              </View> */}
-              <View style={styles.DetailSection}>
-                <Text style={styles.DoctorName}>{doctor.name}</Text>
-                <Text style={styles.Proffesion}>{doctor.Proffesion}</Text>
-                <Text style={styles.Location}>{doctor.Location}</Text>
+        {filteredDoctors.length === 0 ? (
+          <Text style={styles.noResultsText}>No Doctors found</Text>
+        ) : (
+          <View>
+            {filteredDoctors.map((doctor, index) => (
+              <View style={styles.DoctorCard} key={index}>
+                <View style={styles.DoctorDetails}>
+
+                  <View style={styles.DetailSection}>
+                    <Text style={styles.DoctorName}>{doctor.name}</Text>
+                    <Text style={styles.Proffesion}>{doctor.Proffesion}</Text>
+                    <Text style={styles.Location}>{doctor.Location}</Text>
+                  </View>
+                </View>
+                <View style={styles.BottomSection}>
+                  <Text style={styles.contact}>{doctor.contact}</Text>
+                  <TouchableOpacity style={styles.GetInTouch}>
+                    <Text style={styles.GetInTouchText}>Get In Touch</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-            <View style={styles.BottomSection}>
-              <Text style={styles.contact}>{doctor.contact}</Text>
-              <TouchableOpacity style={styles.GetInTouch}>
-                <Text style={styles.GetInTouchText}>Get In Touch</Text>
-              </TouchableOpacity>
-            </View>
+            ))}
           </View>
-        ))}
+        )}
       </ScrollView>
     </View>
   );
@@ -82,7 +88,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
     paddingLeft: 10,
-    fontFamily: 'MontserratBold',
+    fontFamily: 'MontserratRegular',
+
 
   },
   searchBarText: {
@@ -156,5 +163,10 @@ const styles = StyleSheet.create({
   },
   contact: {
     width: 150,
+  },
+  noResultsText: {
+    alignSelf: "center",
+    fontFamily: 'MontserratRegular',
+    fontSize: 20
   }
 })

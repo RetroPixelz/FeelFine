@@ -34,14 +34,16 @@ const styles = StyleSheet.create({
         marginBottom: 40
       },
       title: {
-        fontWeight: 800,
         fontSize: 28,
         marginBottom: 10,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: "MontserratBold"
+
       },
       description: {
-        fontWeight: 300,
+        fontFamily: "MontserratRegular",
         textAlign: 'center',
-        paddingHorizontal: 64
+        paddingHorizontal: 64,
+        fontSize: 12
       }
 })

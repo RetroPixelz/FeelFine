@@ -55,11 +55,11 @@ const Journal = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('JournalScreen')}>
-                    <Image
-                        source={require('../assets/return.png')}
-                        style={styles.symbol}
-                    />
-                </TouchableOpacity>
+        <Image
+          source={require('../assets/return.png')}
+          style={styles.symbol}
+        />
+      </TouchableOpacity>
       <Text style={styles.HowWasDay}>How was your day</Text>
 
       <View style={styles.JournalSection}>
@@ -81,9 +81,6 @@ const Journal = ({ navigation }) => {
           numberOfLines={1}
         />
         <View style={styles.submitBox}>
-          {/* <TouchableOpacity style={styles.CameraBox}>
-            <MaterialCommunityIcons name="camera-outline" color={"white"} size={40} />
-          </TouchableOpacity> */}
           <TouchableOpacity style={styles.Analyse} onPress={handleAnalyzeAndSave}>
             <Text style={styles.AnalyseText}>Analyse</Text>
           </TouchableOpacity>
@@ -99,7 +96,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    padding: 25
+    padding: 20
   },
   HowWasDay: {
     // fontWeight: "bold",
@@ -157,7 +154,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
-    
+
   },
   AnalyseText: {
     color: "white",
@@ -172,6 +169,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 50
   },
   btnText: {
     color: 'white',
@@ -180,5 +178,5 @@ const styles = StyleSheet.create({
   symbol: {
     width: 10,
     height: 10
-}
+  }
 })

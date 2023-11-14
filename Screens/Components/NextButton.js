@@ -5,7 +5,7 @@ import {AntDesign} from '@expo/vector-icons';
 
 const NextButton = ({percentage, scrollTo}) => {
     const size = 128;
-    const strokeWidth = 2;
+    const strokeWidth = 4;
     const center = size / 2;
     const radius = size / 2 - strokeWidth / 2;
     const circumference = 2 * Math.PI * radius;
@@ -50,11 +50,11 @@ const NextButton = ({percentage, scrollTo}) => {
         <View style={styles.container}>
             <Svg width={size} height={size}>
                 <G rotation="-90" origin={center}>
-                    <Circle stroke="#AF8EFF" cx={center} cy={center} r={radius} strokeWidth={strokeWidth} />
+                    <Circle stroke="#F2F2F2" cx={center} cy={center} r={radius} strokeWidth={strokeWidth} />
                     <Circle
                         ref={progressRef}
                         stroke="#AF8EFF"
-                        fill="#fff"
+                        fill="#F2F2F2"
                         cx={center}
                         cy={center}
                         r={radius}
@@ -66,7 +66,7 @@ const NextButton = ({percentage, scrollTo}) => {
 
             </Svg>
                 <TouchableOpacity onPress={scrollTo} style={styles.button} activeOpacity={0.6}>
-                    <AntDesign name='arrowright' size={32} color="#fff"/>
+                    <AntDesign name='arrowright' size={45} color="#fff"/>
                 </TouchableOpacity>
         </View>
     )

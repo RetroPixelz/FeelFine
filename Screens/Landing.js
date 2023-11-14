@@ -26,18 +26,6 @@ const Landing = () => {
   const [retryCount, setRetryCount] = useState(0);
   const maxRetries = 6;
 
-  const Signout = async () => {
-    signOutUser();
-    navigation.navigate("Login");
-  }
-
-  const clearOnboarding = async () => {
-    try {
-      await AsyncStorage.removeItem('@viewedOnboarding');
-    } catch (err) {
-      console.log("Error @clearOnboarding: ", err);
-    }
-  }
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -46,8 +34,6 @@ const Landing = () => {
       setUid(user.uid);
     }
   }, []);
-
-
 
   const getEntries = async () => {
     try {
@@ -73,8 +59,6 @@ const Landing = () => {
       setRetryCount(retryCount + 1);
     }
   }, [data]);
-
-
 
   useEffect(() => {
     if (AllEntries.length > 0) {
@@ -174,7 +158,7 @@ const Landing = () => {
       sadness: { sum: 0, count: 0 },
     };
 
-    const currentDate = new Date(); // Store the current date
+    const currentDate = new Date();
 
     // Filter the data based on the provided date range
     const filteredData = data.filter((entry) => {
@@ -242,10 +226,10 @@ const Landing = () => {
     // Check if the entry has a timestamp
     if (entry.timestamp) {
       const timestamp = entry.timestamp;
-      // econds and nanoseconds from timestamp
+
       const seconds = timestamp.seconds;
       const nanoseconds = timestamp.nanoseconds;
-      // create a Date object
+
       const javascriptDate = new Date(seconds * 1000 + nanoseconds / 1000000);
       console.log(javascriptDate);
     } else {
@@ -272,7 +256,7 @@ const Landing = () => {
 
   return (
     <ScrollView style={styles.container}>
-      
+
       {AllEntries.length === 0 ? (
         <View style={styles.heroBox}>
           <Text style={styles.heroText}>Get Journaling</Text>
@@ -303,20 +287,14 @@ const Landing = () => {
         </View>
       )}
 
-      
-
       <View style={styles.YourEntries}>
         <View style={styles.tabs}>
-        <MaterialCommunityIcons name="refresh" color="transparent" size={20} />
-
-
-        <Text style={styles.entriesText}> Emotion Overview </Text>
-        <TouchableOpacity onPress={getEntries} style={styles.button}>
-            <MaterialCommunityIcons name="refresh" color="black" size={20} />
-        </TouchableOpacity>
+          <MaterialCommunityIcons name="refresh" color="transparent" size={20} />
+          <Text style={styles.entriesText}> Emotion Overview </Text>
+          <TouchableOpacity onPress={getEntries} style={styles.button}>
+            <MaterialCommunityIcons name="refresh" color="blue" size={20} />
+          </TouchableOpacity>
         </View>
-        
-        
 
         {todaysAverage && yesturdaysAverage && thisWeekAverage ? (
           <EmotionChart
@@ -326,27 +304,11 @@ const Landing = () => {
           />
         ) : (
           <View style={styles.noEntriesMessage}>
-                        <Text style={styles.noEntriesMessageText}>No entries for this date</Text>
-                    </View>
+            <Text style={styles.noEntriesMessageText}>No entries for this date</Text>
+          </View>
         )}
 
       </View>
-
-      
-
-
-      {/* <View style={styles.buttons}>
-        <TouchableOpacity onPress={clearOnboarding} style={styles.clear}>
-          <Text style={styles.refresh2}>clear Onboarding</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={Signout} style={styles.clear}>
-          <Text style={styles.refresh2}>Sign out</Text>
-        </TouchableOpacity>
-
-      </View> */}
-
-
 
     </ScrollView>
   )
@@ -358,7 +320,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    padding: 25
+    padding: 20
   },
   heroBox: {
     width: 350,
@@ -372,7 +334,6 @@ const styles = StyleSheet.create({
   },
   heroText: {
     fontSize: 30,
-    
   },
   heroPara1: {
     fontSize: 10,
@@ -380,7 +341,6 @@ const styles = StyleSheet.create({
     width: 250,
     padding: 20,
     fontFamily: 'MontserratRegular',
-
   },
   heroPara: {
     fontSize: 12,
@@ -491,7 +451,7 @@ const styles = StyleSheet.create({
   },
   EntryThumbnail: {
     fontSize: 10,
-  
+
   },
   clear: {
     width: 140,
@@ -527,7 +487,7 @@ const styles = StyleSheet.create({
   button: {
     width: 25,
     height: 25,
-    backgroundColor: "#AF8EFF",
+    // backgroundColor: "#AF8EFF",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 15,
@@ -553,16 +513,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     fontFamily: 'MontserratRegular',
-},
-noEntriesMessageText: {
-  fontFamily: 'MontserratRegular',
+  },
+  noEntriesMessageText: {
+    fontFamily: 'MontserratRegular',
 
-},
-tabs: {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  gap: 15
-}
+  },
+  tabs: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 15
+  }
 
 
 

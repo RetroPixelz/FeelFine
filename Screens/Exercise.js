@@ -15,8 +15,8 @@ const Exercise = () => {
   const handleSearch = (text) => {
     setSearchQuery(text);
     const filtered = Exercises.filter((exercise) =>
-    exercise.name.toLowerCase().includes(text.toLowerCase()) ||
-    exercise.type.toLowerCase().includes(text.toLowerCase())
+      exercise.name.toLowerCase().includes(text.toLowerCase()) ||
+      exercise.type.toLowerCase().includes(text.toLowerCase())
     );
     setFilteredExercises(filtered);
   };
@@ -35,29 +35,28 @@ const Exercise = () => {
 
       <ScrollView style={styles.ExerciseCardSection}>
 
-      {filteredExercises.map((Exercise, index) => (
-          <View style={styles.ExerciseCard} key={index}>
-
-          <View style={styles.ExerciseDetails}>
-            {/* <View style={styles.ExerciseImage}>
-
-            </View> */}
-            <View style={styles.DetailSection}>
-              <Text style={styles.ExerciseName}>{Exercise.name}</Text>
-              <Text style={styles.ExerciseType}>{Exercise.type}</Text>
-              {/* <Text style={styles.Location}>Back pain</Text> */}
-            </View>
+        {filteredExercises.length === 0 ? (
+          <Text style={styles.noResultsText}>No Exercise found</Text>
+        ) : (
+          <View >
+            {filteredExercises.map((exercise, index) => (
+              <View style={styles.ExerciseCard} key={index}>
+                <View style={styles.ExerciseDetails}>
+                  <View style={styles.DetailSection}>
+                    <Text style={styles.ExerciseName}>{exercise.name}</Text>
+                    <Text style={styles.ExerciseType}>{exercise.type}</Text>
+                  </View>
+                </View>
+                <View style={styles.BottomSection}>
+                  <Text style={styles.duration}>{exercise.duration}</Text>
+                  <View style={styles.TryOut}>
+                    <Text style={styles.TryOutText}>Try it out</Text>
+                  </View>
+                </View>
+              </View>
+            ))}
           </View>
-
-          <View style={styles.BottomSection}>
-            <Text style={styles.duration}>{Exercise.duration}</Text>
-            <View style={styles.TryOut}>
-              <Text style={styles.TryOutText}>Try it out</Text>
-            </View>
-          </View>
-
-        </View>
-        ))}
+        )}
 
       </ScrollView>
 
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    alignItems: 'center', 
+    alignItems: 'center',
     padding: 25
   },
   heroText: {
@@ -86,7 +85,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 5,
     justifyContent: "center",
-    paddingLeft: 10
+    paddingLeft: 10,
+    fontFamily: 'MontserratRegular',
+
   },
   searchBarText: {
     color: "black",
@@ -156,11 +157,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 15,
     fontFamily: 'MontserratBold',
-   
+
   },
   duration: {
     width: 150,
     fontFamily: 'MontserratRegular',
 
+  },
+  noResultsText: {
+    alignSelf: "center",
+    fontFamily: 'MontserratRegular',
+    fontSize: 20
   }
 })

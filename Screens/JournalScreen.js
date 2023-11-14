@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { getCurrentUser } from '../Services/firebaseAuth';
 import { GetUserEntries } from '../Services/firebasedb';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 
 const JournalScreen = ({ navigation }) => {
@@ -66,7 +67,7 @@ const JournalScreen = ({ navigation }) => {
             const timestamp = new Date(entry.timestamp.seconds * 1000 + entry.timestamp.nanoseconds / 1000000);
 
             // Format the timestamp as a string
-            const formattedTimestamp = timestamp.toISOString(); 
+            const formattedTimestamp = timestamp.toISOString();
 
             return formattedTimestamp.toLowerCase().includes(text.toLowerCase());
         });
@@ -81,7 +82,9 @@ const JournalScreen = ({ navigation }) => {
         <View style={styles.testing}>
             <View style={styles.ToEntry}>
                 <TouchableOpacity onPress={getEntries} style={styles.button}>
-                    <Text style={styles.refresh}>Refresh</Text>
+                    {/* <Text style={styles.refresh}>Refresh</Text> */}
+                    <MaterialCommunityIcons name="refresh" color="white" size={20} />
+
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Journal')}>
                     <Text style={styles.btnText}>+</Text>
@@ -132,7 +135,8 @@ const styles = StyleSheet.create({
         width: 350,
         height: 40,
         flexDirection: "row",
-        justifyContent: "flex-end"
+        justifyContent: "space-between"
+        // justifyContent: "flex-end"
     },
     btn: {
         height: 40,
@@ -179,14 +183,14 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     button: {
-        width: 250,
+        width: 40,
         height: 40,
         marginRight: 60,
         backgroundColor: "#AF8EFF",
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 10,
-       
+        borderRadius: 20,
+
     },
     refresh: {
         fontSize: 25,
