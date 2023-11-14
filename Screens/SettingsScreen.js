@@ -8,7 +8,7 @@ const SettingsScreen = ({navigation}) => {
 
   const Signout = async () => {
     signOutUser();
-    navigation.navigate("Login");
+    navigation.navigate("Onboarding");
   }
 
   const clearOnboarding = async () => {

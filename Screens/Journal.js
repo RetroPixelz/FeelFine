@@ -4,12 +4,15 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import { saveJournalEntry } from '../Services/firebasedb';
 import { getCurrentUser, signOutUser } from '../Services/firebaseAuth';
 import analyzeEmotion from '../Services/analyzeEmotion';
+// import { API_KEY } from '@env';
+
 
 
 const Journal = ({ navigation }) => {
   //consts
   const user = getCurrentUser()
   const userId = user.uid;
+
 
   //usestates
   const [title, setTitle] = useState('Give your entry a title');

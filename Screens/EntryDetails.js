@@ -68,11 +68,11 @@ const EntryDetails = ({ route, navigation }) => {
                         yAccessor={({ item }) => item.value}
                     />
                     <View style={styles.labels}>
-                        <Text>Anger</Text>
-                        <Text>Disgust</Text>
-                        <Text>Fear</Text>
-                        <Text>Joy</Text>
-                        <Text>Sadness</Text>
+                        <Text style={styles.label}>Anger</Text>
+                        <Text style={styles.label}>Disgust</Text>
+                        <Text style={styles.label}>Fear</Text>
+                        <Text style={styles.label}>Joy</Text>
+                        <Text style={styles.label}>Sadness</Text>
 
                     </View>
 
@@ -113,11 +113,16 @@ const styles = StyleSheet.create({
     },
     EntryTitle: {
         fontSize: 20,
-        marginTop: 40
+        marginTop: 40,
+        fontFamily: 'MontserratBold',
+
     },
     Entry: {
         marginTop: 15,
-        height: 250
+        height: 250,
+        fontFamily: 'MontserratRegular',
+        fontSize: 13
+
     },
     Analyse: {
         width: "100%",
@@ -138,11 +143,19 @@ const styles = StyleSheet.create({
         width: 320,
     },
     labels: {
-        width: 305,
+        width: 300,
         height: 20,
         marginLeft: 10,
         justifyContent: "space-between",
-        flexDirection: "row"
+        flexDirection: "row",
+    
+    },
+    label: {
+        fontFamily: 'MontserratRegular',
+        fontSize: 12,
+        marginLeft: 0,
+        width: 50,
+        textAlign: "center"
     },
     btn: {
         height: 30,
@@ -171,7 +184,10 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     score: {
-        color: "white"
+        color: "white",
+        fontFamily: 'MontserratRegular',
+        fontSize: 18
+
     },
     symbol: {
         width: 10,

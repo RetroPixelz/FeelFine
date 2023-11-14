@@ -27,6 +27,7 @@ const Landing = () => {
   const maxRetries = 6;
 
 
+
   useEffect(() => {
     const user = getCurrentUser();
 
@@ -280,9 +281,9 @@ const Landing = () => {
             </Text>
           </View>
 
-          <TouchableOpacity onPress={handleRecommendation} style={styles.recommend}>
+          {/* <TouchableOpacity onPress={handleRecommendation} style={styles.recommend}>
             <Text style={styles.recommendText}>Get Recommendation</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
         </View>
       )}

@@ -3,7 +3,7 @@ import base64 from 'base-64';
 
 const apiKey = '3SnyRi52xVsFv3r1DX0gOA7TIQBhh1E-SbjK1fKj7tD9';
 const apiUrl = 'https://api.eu-de.natural-language-understanding.watson.cloud.ibm.com/instances/f209c9ce-9326-49c5-b72e-09a47daa39e7';
-// console.log(API_KEY)
+
 
 const analyzeEmotion = async (text) => {
     try {
