@@ -13,11 +13,10 @@ const Journal = ({ navigation }) => {
   const user = getCurrentUser()
   const userId = user.uid;
 
-
   //usestates
-  const [title, setTitle] = useState('Give your entry a title');
+  const [title, setTitle] = useState('');
   const [emotion, setEmotion] = useState(null);
-  const [text, setText] = useState('Tell me about your day.');
+  const [text, setText] = useState('');
 
   //functions
   const handleAnalyzeAndSave = async () => {
@@ -49,7 +48,7 @@ const Journal = ({ navigation }) => {
       Alert.alert("whoops", "something went wrong when trying to add Journal Entry");
     } else {
       console.log("Added Journal successfully");
-      Alert.alert("Wohoo!", "Entry added, you can view your entries on the Home screen.");
+      Alert.alert("Wohoo!", "Entry added, you can view your entries on the JournalScreen.");
 
     }
   };
@@ -70,18 +69,20 @@ const Journal = ({ navigation }) => {
         <View style={styles.TitleBox}>
           <TextInput style={styles.titleInput}
             onChangeText={setTitle}
-            value={title}
-            multiline={true}
-            numberOfLines={1}
+            // value={title}
+            // multiline={true}
+            // numberOfLines={1}
+            placeholder='Give your entry a title.'
           />
         </View>
 
         <TextInput style={styles.input}
           onChangeText={setText}
-          value={text}
-          multiline={true}
-          placeholder={text}
+          // value={text}
+          // multiline={true}
+          placeholder='Tell me about your day'
           numberOfLines={1}
+          
         />
         <View style={styles.submitBox}>
           <TouchableOpacity style={styles.Analyse} onPress={handleAnalyzeAndSave}>

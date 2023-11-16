@@ -1,21 +1,9 @@
-# FeelFine
- FeelFine is a mobile mental health application with integrated AI services to complete sentiment analyses on your daily entries, we also have a wide range of doctors and exercises to make you feel the best you can.
-
-
- 
-
-<!-- Repository Information & Links-->
 <br />
 
-![GitHub repo size](https://img.shields.io/github/repo-size/RetroPixelz/FeelFine)
-![GitHub watchers](https://img.shields.io/github/watchers/RetroPixelz/FeelFine)
-![GitHub language count](https://img.shields.io/github/languages/RetroPixelz/FeelFine)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/RetroPixelz/FeelFine)
 
-<!-- HEADER SECTION -->
 <h5 align="center" style="padding:0;margin:0;">Justin Koster</h5>
 <h5 align="center" style="padding:0;margin:0;">200100</h5>
-<h6 align="center">DV300 | Term 4</h6>
+<h6 align="center">Interactive Development - 300 - term 4</h6>
 </br>
 <p align="center">
 
