@@ -4,9 +4,9 @@ import React, { useState } from 'react'
 const Exercise = () => {
   const Exercises = [
     { name: 'Childs Pose', type: 'stretch', duration: '10-20 min', },
-    { name: 'Childs Pose', type: 'stretch', duration: '10-20 min', },
-    { name: 'Childs Pose', type: 'stretch', duration: '10-20 min', },
-    { name: 'Rose', type: 'stretch', duration: '10-20 min', },
+    { name: 'Forward Fold', type: 'stretch', duration: '5-10 min', },
+    { name: 'Pigeon Pose', type: 'stretch', duration: '15-20 min', },
+    { name: 'Puppy Pose', type: 'stretch', duration: '5-10 min', },
   ]
 
   const [searchQuery, setSearchQuery] = useState('');

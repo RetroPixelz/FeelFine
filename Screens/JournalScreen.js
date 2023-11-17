@@ -10,7 +10,7 @@ const JournalScreen = ({ navigation }) => {
     const [AllEntries, setAllEntries] = useState([]);
     const [uid, setUid] = useState();
 
-    console.log(AllEntries)
+
 
     useEffect(() => {
         const user = getCurrentUser();
@@ -37,7 +37,6 @@ const JournalScreen = ({ navigation }) => {
             const highestEmotion = entry.JournalEntry.emotions.reduce((maxEmotion, emotion) => {
                 return emotion.score > maxEmotion.score ? emotion : maxEmotion;
             }, entry.JournalEntry.emotions[0]);
-
 
             if (highestEmotion.emotion === 'anger') {
                 return '#9F2121';
@@ -66,7 +65,6 @@ const JournalScreen = ({ navigation }) => {
         const filtered = AllEntries.filter((entry) => {
             const timestamp = new Date(entry.timestamp.seconds * 1000 + entry.timestamp.nanoseconds / 1000000);
 
-            // Format the timestamp as a string
             const formattedTimestamp = timestamp.toISOString();
 
             return formattedTimestamp.toLowerCase().includes(text.toLowerCase());

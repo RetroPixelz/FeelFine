@@ -22,6 +22,7 @@ yarn-error.log*
 # Environment variables
 .env
 firebase.js
+Services/analyzeEmotion.js
 # macOS directory settings
 .DS_Store
 # Android files
